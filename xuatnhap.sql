@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 04, 2024 lúc 05:36 PM
+-- Thời gian đã tạo: Th5 08, 2024 lúc 06:36 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -243,7 +243,7 @@ INSERT INTO `hanghoa` (`MaHang`, `TenHang`, `SoLuong`, `DonGiaNhap`, `DonGiaBan`
 
 CREATE TABLE `hdb` (
   `MaHDB` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `MaKH` int(11) NOT NULL,
   `NgayMua` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -253,9 +253,9 @@ CREATE TABLE `hdb` (
 --
 
 INSERT INTO `hdb` (`MaHDB`, `MaNV`, `MaKH`, `NgayMua`) VALUES
-(1, 8, 1, '2023-09-10'),
-(2, 9, 2, '2024-03-10'),
-(3, 10, 3, '2024-04-10');
+(1, 'NV08', 1, '2023-09-10'),
+(2, 'NV09', 2, '2024-03-10'),
+(3, 'NV10', 3, '2024-04-10');
 
 -- --------------------------------------------------------
 
@@ -339,7 +339,7 @@ INSERT INTO `nhacungcap` (`MaNCC`, `TenNCC`, `DiaChi`, `SDT`, `Email`) VALUES
 --
 
 CREATE TABLE `nhanvien` (
-  `IDNhanvien` int(11) NOT NULL,
+  `IDNhanvien` varchar(11) NOT NULL,
   `TenNV` varchar(50) NOT NULL,
   `GioiTinh` varchar(10) NOT NULL,
   `NgaySinh` date NOT NULL,
@@ -356,16 +356,16 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`IDNhanvien`, `TenNV`, `GioiTinh`, `NgaySinh`, `DiaChi`, `SDT`, `Email`, `NgayVaoLam`, `Matkhau`, `Chucvu`) VALUES
-(1, 'Nguyễn Văn Anh', 'Nam', '1990-05-15', 'Hà Nội', '0987654321', 'nguyenvananh@gmail.com', '2020-01-10', 'password1', 'Nhân viên kinh doanh'),
-(2, 'Trần Thị Bình Minh', 'Nữ', '1995-09-20', 'Hồ Chí Minh', '0901234567', 'tranbinhminh@gmail.com', '2019-12-05', 'password2', 'Nhân viên kho'),
-(3, 'Lê Thị Thu Hà', 'Nữ', '1993-07-12', 'Đà Nẵng', '0978123456', 'lethuthaha@gmail.com', '2020-03-22', 'password3', 'Quản lí kho'),
-(4, 'Phạm Văn Bình', 'Nam', '1988-04-02', 'Hải Phòng', '0967123456', 'phamvanbinh@gmail.com', '2020-02-15', 'password4', 'Nhân viên kinh doanh'),
-(5, 'Vũ Thị Mai', 'Nữ', '1991-10-25', 'Cần Thơ', '0918123456', 'vuthimai@gmail.com', '2021-01-30', 'password5', 'Vận chuyển'),
-(6, 'Đinh Văn Hùng', 'Nam', '1994-03-08', 'Hà Nội', '0988123456', 'dinhvanhung@gmail.com', '2020-06-18', 'password6', 'Nhân viên kinh doanh'),
-(7, 'Hoàng Thị Hồng', 'Nữ', '1996-12-17', 'Hồ Chí Minh', '0909123456', 'hoangthihong@gmail.com', '2019-11-20', 'password7', 'Vận chuyển'),
-(8, 'Nguyễn Văn Long', 'Nam', '1987-08-29', 'Đà Nẵng', '0976123456', 'nguyenvanlong@gmail.com', '2018-10-10', 'password8', 'Nhân viên kho'),
-(9, 'Trần Thị Ngọc', 'Nữ', '1992-06-14', 'Hải Phòng', '0966123456', 'tranthinngoc@gmail.com', '2021-03-05', 'password9', 'Nhân viên kho'),
-(10, 'Lê Văn Đức', 'Nam', '1998-01-03', 'Cần Thơ', '0916123456', 'levanduc@gmail.com', '2019-07-15', 'password10', 'Nhân viên kho');
+('NV01', 'Nguyễn Văn Anh', 'Nam', '1990-05-15', 'Hà Nội', '0987654321', 'nguyenvananh@gmail.com', '2020-01-10', 'password1', 'Nhân viên kinh doanh'),
+('NV02', 'Trần Thị Bình Minh', 'Nữ', '1995-09-20', 'Hồ Chí Minh', '0901234567', 'tranbinhminh@gmail.com', '2019-12-05', 'password2', 'Nhân viên kho'),
+('NV03', 'Lê Thị Thu Hà', 'Nữ', '1993-07-12', 'Đà Nẵng', '0978123456', 'lethuthaha@gmail.com', '2020-03-22', 'password3', 'Quản lí kho'),
+('NV04', 'Phạm Văn Bình', 'Nam', '1988-04-02', 'Hải Phòng', '0967123456', 'phamvanbinh@gmail.com', '2020-02-15', 'password4', 'Nhân viên kinh doanh'),
+('NV05', 'Vũ Thị Mai', 'Nữ', '1991-10-25', 'Cần Thơ', '0918123456', 'vuthimai@gmail.com', '2021-01-30', 'password5', 'Vận chuyển'),
+('NV06', 'Đinh Văn Hùng', 'Nam', '1994-03-08', 'Hà Nội', '0988123456', 'dinhvanhung@gmail.com', '2020-06-18', 'password6', 'Nhân viên kinh doanh'),
+('NV07', 'Hoàng Thị Hồng', 'Nữ', '1996-12-17', 'Hồ Chí Minh', '0909123456', 'hoangthihong@gmail.com', '2019-11-20', 'password7', 'Vận chuyển'),
+('NV08', 'Nguyễn Văn Long', 'Nam', '1987-08-29', 'Đà Nẵng', '0976123456', 'nguyenvanlong@gmail.com', '2018-10-10', 'password8', 'Nhân viên kho'),
+('NV09', 'Trần Thị Ngọc', 'Nữ', '1992-06-14', 'Hải Phòng', '0966123456', 'tranthinngoc@gmail.com', '2021-03-05', 'password9', 'Nhân viên kho'),
+('NV10', 'Lê Văn Đức', 'Nam', '1998-01-03', 'Cần Thơ', '0916123456', 'levanduc@gmail.com', '2019-07-15', 'password10', 'Nhân viên kho');
 
 -- --------------------------------------------------------
 
@@ -375,7 +375,7 @@ INSERT INTO `nhanvien` (`IDNhanvien`, `TenNV`, `GioiTinh`, `NgaySinh`, `DiaChi`,
 
 CREATE TABLE `phieudathang` (
   `MaPhieuDatH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `MaNCC` int(11) NOT NULL,
   `NgayLapPhieu` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -385,9 +385,9 @@ CREATE TABLE `phieudathang` (
 --
 
 INSERT INTO `phieudathang` (`MaPhieuDatH`, `MaNV`, `MaNCC`, `NgayLapPhieu`) VALUES
-(1, 8, 1, '2023-10-10'),
-(2, 9, 2, '2024-02-10'),
-(3, 10, 3, '2024-03-10');
+(1, 'NV08', 1, '2023-10-10'),
+(2, 'NV09', 2, '2024-02-10'),
+(3, 'NV10', 3, '2024-03-10');
 
 -- --------------------------------------------------------
 
@@ -397,8 +397,9 @@ INSERT INTO `phieudathang` (`MaPhieuDatH`, `MaNV`, `MaNCC`, `NgayLapPhieu`) VALU
 
 CREATE TABLE `phieudoihang` (
   `MaPhieuDoiH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `MaHDB` int(11) NOT NULL,
+  `Tinhtrang` varchar(20) NOT NULL,
   `NgayLapPhieu` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -406,10 +407,10 @@ CREATE TABLE `phieudoihang` (
 -- Đang đổ dữ liệu cho bảng `phieudoihang`
 --
 
-INSERT INTO `phieudoihang` (`MaPhieuDoiH`, `MaNV`, `MaHDB`, `NgayLapPhieu`) VALUES
-(1, 8, 1, '2023-09-20'),
-(2, 9, 2, '2024-03-20'),
-(3, 10, 3, '2024-04-20');
+INSERT INTO `phieudoihang` (`MaPhieuDoiH`, `MaNV`, `MaHDB`, `Tinhtrang`, `NgayLapPhieu`) VALUES
+(1, 'NV08', 1, 'Chưa xử lí', '2023-09-20'),
+(2, 'NV09', 2, 'Chưa xử lí', '2024-03-20'),
+(3, 'NV10', 3, 'Chưa xử lí', '2024-04-20');
 
 -- --------------------------------------------------------
 
@@ -419,7 +420,7 @@ INSERT INTO `phieudoihang` (`MaPhieuDoiH`, `MaNV`, `MaHDB`, `NgayLapPhieu`) VALU
 
 CREATE TABLE `phieukiemkehang` (
   `MaPhieuKKH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `NgayLapPhieu` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -428,9 +429,9 @@ CREATE TABLE `phieukiemkehang` (
 --
 
 INSERT INTO `phieukiemkehang` (`MaPhieuKKH`, `MaNV`, `NgayLapPhieu`) VALUES
-(1, 8, '2024-03-05'),
-(2, 9, '2024-04-05'),
-(3, 10, '2024-04-25');
+(1, 'NV08', '2024-03-05'),
+(2, 'NV09', '2024-04-05'),
+(3, 'NV10', '2024-04-25');
 
 -- --------------------------------------------------------
 
@@ -440,7 +441,7 @@ INSERT INTO `phieukiemkehang` (`MaPhieuKKH`, `MaNV`, `NgayLapPhieu`) VALUES
 
 CREATE TABLE `phieuxuathang` (
   `MaPhieuXuatH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `MaPhieuYCXH` int(11) NOT NULL,
   `NgayLapPhieu` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -450,9 +451,9 @@ CREATE TABLE `phieuxuathang` (
 --
 
 INSERT INTO `phieuxuathang` (`MaPhieuXuatH`, `MaNV`, `MaPhieuYCXH`, `NgayLapPhieu`) VALUES
-(1, 8, 1, '2024-03-25'),
-(2, 9, 2, '2024-04-25'),
-(3, 10, 3, '2024-05-02');
+(1, 'NV08', 1, '2024-03-25'),
+(2, 'NV09', 2, '2024-04-25'),
+(3, 'NV10', 3, '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -463,7 +464,7 @@ INSERT INTO `phieuxuathang` (`MaPhieuXuatH`, `MaNV`, `MaPhieuYCXH`, `NgayLapPhie
 CREATE TABLE `phieuyeucaugiaobuhang` (
   `MaPhieuYCGBH` int(11) NOT NULL,
   `MaPhieuDatH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `ThoiGianGiao` date NOT NULL,
   `DiaDiemGiao` varchar(50) NOT NULL,
   `NgayLapPhieu` date NOT NULL
@@ -474,9 +475,9 @@ CREATE TABLE `phieuyeucaugiaobuhang` (
 --
 
 INSERT INTO `phieuyeucaugiaobuhang` (`MaPhieuYCGBH`, `MaPhieuDatH`, `MaNV`, `ThoiGianGiao`, `DiaDiemGiao`, `NgayLapPhieu`) VALUES
-(1, 1, 1, '2024-03-27', 'Nam Định', '2023-10-26'),
-(2, 2, 4, '2024-04-27', 'Hà Nội', '2024-02-28'),
-(3, 3, 6, '2024-05-04', 'Hà Nội', '2024-03-28');
+(1, 1, 'NV01', '2024-03-27', 'Nam Định', '2023-10-26'),
+(2, 2, 'NV04', '2024-04-27', 'Hà Nội', '2024-02-28'),
+(3, 3, 'NV06', '2024-05-04', 'Hà Nội', '2024-03-28');
 
 -- --------------------------------------------------------
 
@@ -486,19 +487,20 @@ INSERT INTO `phieuyeucaugiaobuhang` (`MaPhieuYCGBH`, `MaPhieuDatH`, `MaNV`, `Tho
 
 CREATE TABLE `phieuyeucauxuathang` (
   `MaPhieuYCXH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `NgayLapPhieu` date NOT NULL,
-  `MaHDB` int(11) NOT NULL
+  `MaHDB` int(11) NOT NULL,
+  `Tinhtrang` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `phieuyeucauxuathang`
 --
 
-INSERT INTO `phieuyeucauxuathang` (`MaPhieuYCXH`, `MaNV`, `NgayLapPhieu`, `MaHDB`) VALUES
-(1, 8, '2024-03-20', 1),
-(2, 9, '2024-04-20', 2),
-(3, 10, '2024-04-30', 3);
+INSERT INTO `phieuyeucauxuathang` (`MaPhieuYCXH`, `MaNV`, `NgayLapPhieu`, `MaHDB`, `Tinhtrang`) VALUES
+(1, 'NV08', '2024-03-20', 1, 'Chưa xử lí'),
+(2, 'NV09', '2024-04-20', 2, 'Chưa xử lí'),
+(3, 'NV10', '2024-04-30', 3, 'Chưa xử lí');
 
 -- --------------------------------------------------------
 
@@ -508,7 +510,7 @@ INSERT INTO `phieuyeucauxuathang` (`MaPhieuYCXH`, `MaNV`, `NgayLapPhieu`, `MaHDB
 
 CREATE TABLE `pnh` (
   `MaPhieuNhapH` int(11) NOT NULL,
-  `MaNV` int(11) NOT NULL,
+  `MaNV` varchar(11) NOT NULL,
   `MaPhieuDatH` int(11) NOT NULL,
   `NgayLapPhieu` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -518,9 +520,9 @@ CREATE TABLE `pnh` (
 --
 
 INSERT INTO `pnh` (`MaPhieuNhapH`, `MaNV`, `MaPhieuDatH`, `NgayLapPhieu`) VALUES
-(1, 3, 1, '2023-10-15'),
-(2, 3, 2, '2024-02-16'),
-(3, 3, 3, '2024-03-16');
+(1, 'NV03', 1, '2023-10-15'),
+(2, 'NV03', 2, '2024-02-16'),
+(3, 'NV03', 3, '2024-03-16');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -744,12 +746,6 @@ ALTER TABLE `nhacungcap`
   MODIFY `MaNCC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `nhanvien`
---
-ALTER TABLE `nhanvien`
-  MODIFY `IDNhanvien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
 -- AUTO_INCREMENT cho bảng `phieudathang`
 --
 ALTER TABLE `phieudathang`
@@ -787,49 +783,57 @@ ALTER TABLE `pnh`
 -- Các ràng buộc cho bảng `chitiethdb`
 --
 ALTER TABLE `chitiethdb`
-  ADD CONSTRAINT `chitiethdb_ibfk_1` FOREIGN KEY (`MaHDB`) REFERENCES `hdb` (`MaHDB`);
+  ADD CONSTRAINT `chitiethdb_ibfk_1` FOREIGN KEY (`MaHDB`) REFERENCES `hdb` (`MaHDB`),
+  ADD CONSTRAINT `chitiethdb_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpdh`
 --
 ALTER TABLE `chitietpdh`
-  ADD CONSTRAINT `chitietpdh_ibfk_1` FOREIGN KEY (`MaPhieuDatH`) REFERENCES `phieudathang` (`MaPhieuDatH`);
+  ADD CONSTRAINT `chitietpdh_ibfk_1` FOREIGN KEY (`MaPhieuDatH`) REFERENCES `phieudathang` (`MaPhieuDatH`),
+  ADD CONSTRAINT `chitietpdh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpdoih`
 --
 ALTER TABLE `chitietpdoih`
-  ADD CONSTRAINT `chitietpdoih_ibfk_1` FOREIGN KEY (`MaPhieuDoiH`) REFERENCES `phieudoihang` (`MaPhieuDoiH`);
+  ADD CONSTRAINT `chitietpdoih_ibfk_1` FOREIGN KEY (`MaPhieuDoiH`) REFERENCES `phieudoihang` (`MaPhieuDoiH`),
+  ADD CONSTRAINT `chitietpdoih_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietphieukkh`
 --
 ALTER TABLE `chitietphieukkh`
-  ADD CONSTRAINT `chitietphieukkh_ibfk_1` FOREIGN KEY (`MaPhieuKKH`) REFERENCES `phieukiemkehang` (`MaPhieuKKH`);
+  ADD CONSTRAINT `chitietphieukkh_ibfk_1` FOREIGN KEY (`MaPhieuKKH`) REFERENCES `phieukiemkehang` (`MaPhieuKKH`),
+  ADD CONSTRAINT `chitietphieukkh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpnh`
 --
 ALTER TABLE `chitietpnh`
-  ADD CONSTRAINT `chitietpnh_ibfk_1` FOREIGN KEY (`MaPhieuNhapH`) REFERENCES `pnh` (`MaPhieuNhapH`);
+  ADD CONSTRAINT `chitietpnh_ibfk_1` FOREIGN KEY (`MaPhieuNhapH`) REFERENCES `pnh` (`MaPhieuNhapH`),
+  ADD CONSTRAINT `chitietpnh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpxh`
 --
 ALTER TABLE `chitietpxh`
-  ADD CONSTRAINT `chitietpxh_ibfk_1` FOREIGN KEY (`MaPhieuXuatH`) REFERENCES `phieuxuathang` (`MaPhieuXuatH`);
+  ADD CONSTRAINT `chitietpxh_ibfk_1` FOREIGN KEY (`MaPhieuXuatH`) REFERENCES `phieuxuathang` (`MaPhieuXuatH`),
+  ADD CONSTRAINT `chitietpxh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpycgbh`
 --
 ALTER TABLE `chitietpycgbh`
-  ADD CONSTRAINT `chitietpycgbh_ibfk_1` FOREIGN KEY (`MaPhieuYCGBH`) REFERENCES `phieuyeucaugiaobuhang` (`MaPhieuYCGBH`);
+  ADD CONSTRAINT `chitietpycgbh_ibfk_1` FOREIGN KEY (`MaPhieuYCGBH`) REFERENCES `phieuyeucaugiaobuhang` (`MaPhieuYCGBH`),
+  ADD CONSTRAINT `chitietpycgbh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `chitietpycxh`
 --
 ALTER TABLE `chitietpycxh`
-  ADD CONSTRAINT `chitietpycxh_ibfk_1` FOREIGN KEY (`MaPhieuYCXH`) REFERENCES `phieuyeucauxuathang` (`MaPhieuYCXH`);
+  ADD CONSTRAINT `chitietpycxh_ibfk_1` FOREIGN KEY (`MaPhieuYCXH`) REFERENCES `phieuyeucauxuathang` (`MaPhieuYCXH`),
+  ADD CONSTRAINT `chitietpycxh_ibfk_2` FOREIGN KEY (`MaHang`) REFERENCES `hanghoa` (`MaHang`);
 
 --
 -- Các ràng buộc cho bảng `hanghoa`
@@ -842,8 +846,8 @@ ALTER TABLE `hanghoa`
 -- Các ràng buộc cho bảng `hdb`
 --
 ALTER TABLE `hdb`
-  ADD CONSTRAINT `hdb_ibfk_1` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`),
-  ADD CONSTRAINT `hdb_ibfk_2` FOREIGN KEY (`MaKH`) REFERENCES `khachhang` (`MaKH`);
+  ADD CONSTRAINT `b` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`),
+  ADD CONSTRAINT `hdb_ibfk_1` FOREIGN KEY (`MaKH`) REFERENCES `khachhang` (`MaKH`);
 
 --
 -- Các ràng buộc cho bảng `phieudathang`
@@ -866,18 +870,25 @@ ALTER TABLE `phieukiemkehang`
   ADD CONSTRAINT `phieukiemkehang_ibfk_1` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`);
 
 --
+-- Các ràng buộc cho bảng `phieuxuathang`
+--
+ALTER TABLE `phieuxuathang`
+  ADD CONSTRAINT `phieuxuathang_ibfk_1` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`),
+  ADD CONSTRAINT `phieuxuathang_ibfk_2` FOREIGN KEY (`MaPhieuYCXH`) REFERENCES `phieuyeucauxuathang` (`MaPhieuYCXH`);
+
+--
 -- Các ràng buộc cho bảng `phieuyeucaugiaobuhang`
 --
 ALTER TABLE `phieuyeucaugiaobuhang`
-  ADD CONSTRAINT `phieuyeucaugiaobuhang_ibfk_1` FOREIGN KEY (`MaPhieuDatH`) REFERENCES `phieudathang` (`MaPhieuDatH`),
-  ADD CONSTRAINT `phieuyeucaugiaobuhang_ibfk_2` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`);
+  ADD CONSTRAINT `phieuyeucaugiaobuhang_ibfk_1` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`),
+  ADD CONSTRAINT `phieuyeucaugiaobuhang_ibfk_2` FOREIGN KEY (`MaPhieuDatH`) REFERENCES `phieudathang` (`MaPhieuDatH`);
 
 --
 -- Các ràng buộc cho bảng `phieuyeucauxuathang`
 --
 ALTER TABLE `phieuyeucauxuathang`
-  ADD CONSTRAINT `FK_MaHDB_PhieuYeuCauXuatHang` FOREIGN KEY (`MaHDB`) REFERENCES `hdb` (`MaHDB`),
-  ADD CONSTRAINT `phieuyeucauxuathang_ibfk_1` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`);
+  ADD CONSTRAINT `fk` FOREIGN KEY (`MaNV`) REFERENCES `nhanvien` (`IDNhanvien`),
+  ADD CONSTRAINT `phieuyeucauxuathang_ibfk_1` FOREIGN KEY (`MaHDB`) REFERENCES `hdb` (`MaHDB`);
 
 --
 -- Các ràng buộc cho bảng `pnh`
