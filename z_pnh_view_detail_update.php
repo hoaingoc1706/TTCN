@@ -28,11 +28,11 @@
          -->
       <!--   <script>
         tinymce.init({
-        selector: '#sanpham_chitiet'
+        selector: '#hanghoa_chitiet'
         });
 
         tinymce.init({
-        selector: '#sanpham_mota'
+        selector: '#hanghoa_mota'
         });
         </script> -->
     </head>
@@ -44,20 +44,24 @@
             <?php   include("layout/aside.php"); ?>
             <div id="layoutSidenav_content">
 
-                <?php
-                    include("config/connection.php");
-                    $sanpham_id=$_GET['maSP'];
-                    $sql = "
-                          SELECT * 
-                          from tbl_sanpham
-                          where maSP=$sanpham_id
-                          ";
-                 
-                  $san_pham = $con -> query($sql);
-                  
-                  $row = $san_pham->fetch_assoc();
-                 ;?> 
-             
+            <?php
+                          include('connection.php');
+                          if(isset($_GET['MaHang'])) {
+
+                          $hanghoa_id = $_GET['MaHang'];
+                          
+                          $sqlcn = "SELECT * 
+                           from hanghoa
+                           where MaHang=$hanghoa_id
+                           ";
+
+                          $hang_hoa = $con->query($sqlcn);
+
+                           $rowcn = $hang_hoa->fetch_assoc();
+                          }
+
+            ?>
+
                 <main>
                     <div class="container">
                         <div class="row justify-content-center">
@@ -67,67 +71,95 @@
                                         <div class="card-body">
                                             <form method="get" action="z_pnh_update_thuchien.php" enctype="multipart/form-data">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" name="tensp" value="<?php echo $row['tenSP'] ?>" />
-                                                <label for="tensp">Tên sản phẩm</label>
+                                            <?php if(isset($rowcn) && isset($rowcn['TenHang'])): ?>
+                                                <input class="form-control" name="TenHang" value="<?php echo $rowcn['TenHang'] ?>" />
+                                            <?php else: ?>
+                                                <input class="form-control" name="TenHang" value="" /> <!-- hoặc có thể đặt một giá trị mặc định khác -->
+                                            <?php endif; ?>
+                                                <label for="tensp">Tên Hàng</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <textarea class="form-control" id="mota" name="mota" style="height: 200px" placeholder="Mô tả sản phẩm"><?php echo  $row['mota'];?></textarea>
-                                                <label for="mota">Mô tả sản phẩm</label>
+                                                <textarea class="form-control" id="mota" name="mota" style="height: 200px" placeholder="Mô tả hàng">
+                                            <?php echo isset($rowcn['MoTa']) ? $rowcn['MoTa'] : ''; ?>
+                                                </textarea>
+                                                <label for="mota">Mô tả hàng</label>
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" name="DonGiaNhap" value="<?php echo $rowcn['DonGiaNhap'] ?>" />
+                                                <label for="dongia">Đơn giá nhập hàng</label>
                                             </div> 
                                             <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" name="dongia" value="<?php echo $row['dongia'] ?>" />
-                                                <label for="dongia">Đơn giá sản phẩm</label>
-                                            </div> 
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" name="soluong" value="<?php echo $row['soluong'] ?>" />
-                                                <label for="soluong">Số lượng</label>
+                                                <input type="number" class="form-control" name="SoLuongNhap" value="<?php echo $rowcn['SoLuongNhap'] ?>" />
+                                                <label for="soluong">Số lượng nhập hàng</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <textarea class="form-control" id="DVT" name="DVT" style="height: 200px" placeholder="Đơn vị tính"><?php echo  $row['DVT'];?></textarea>
-                                                <label for="DVT">DVT</label>
-                                            </div> 
+                                                <textarea class="form-control" id="DVT" name="DVT" style="height: 200px" placeholder="Đơn vị tính">
+                                            <?php echo isset($rowcn['DVT']) ? $rowcn['DVT'] : ''; ?>
+                                                </textarea>
+                                            <label for="DVT">DVT</label>
+                                            </div>
+
                                             
                                             <?php
-                                                    include("config/connection.php");
-                                                    $sql_category="SELECT * FROM tbl_loaisanpham";
+                                                    include('connection.php');
+                                                    $sql_category="SELECT * FROM hanghoa";
                                                     $result_category=$con->query($sql_category);
                                                             
                                             ?> 
 
-                                             <div class="form-floating mb-3">
-                                                <b style="margin-right: 70px">Loại sản phẩm:  </b>
-                                               <select name="idtheloai">
-                                                    <?php while ($row_category=$result_category->fetch_assoc()) {?>
-                                                        <option value="<?php echo $row_category['maloai'];?>" <?php if($row_category['maloai']==$row['maloai']) echo ' selected' ?>>
+                            <div class="form-floating mb-3">
+                                    <b style="margin-right: 70px">Mã Loại hàng: </b>
+                                    <select name="idtheloai">
+                            <?php 
+                               // Kiểm tra xem biến $result_category đã tồn tại và có dữ liệu không
+                                if(isset($result_category) && $result_category->num_rows > 0) {
+                               // Khởi tạo một mảng để lưu trữ các giá trị đã xuất hiện
+                                $used_values = array();
+                               // Nếu có dữ liệu, thực hiện vòng lặp để tạo option
+                                while ($row_category = $result_category->fetch_assoc()) {
+                               // Kiểm tra xem giá trị đã tồn tại trong mảng chưa
+                                if (!in_array($row_category['MaLoaiHang'], $used_values)) {
+                               // Nếu chưa tồn tại, thêm giá trị vào mảng và tạo option
+                                $used_values[] = $row_category['MaLoaiHang'];
+                            ?>
+                                <option value="<?php echo $row_category['MaLoaiHang'];?>" <?php if(isset($rowcn) && $row_category['MaLoaiHang']==$rowcn['MaLoaiHang']) echo ' selected'; ?>>
+                            <?php echo $row_category['MaLoaiHang']; ?>
+                                </option>
+                            <?php
+                            }
+                            }
+                            }
+                            ?>
+                            </select>  
+                            </div>
 
-                                                            <?php echo $row_category['tenloai']; ?>
+                            <?php
+                            include('connection.php');
+                            $sql_category="SELECT * FROM nhacungcap";
+                             $result_category=$con->query($sql_category);
                                                             
-                                                        </option>
-                                                    <?php } ?>
-                                                </select>  
+                            ?> 
                                             
-                                            </div>   
-                                            
-                                            <?php
-                                                    include("config/connection.php");
-                                                    $sql_category="SELECT * FROM tbl_nhacungcap";
-                                                    $result_category=$con->query($sql_category);
-                                                            
-                                            ?> 
-                                            
-                                            <div class="form-floating mb-3">
-                                                <b style="margin-right: 70px">Nhà cung cấp:  </b>
-                                               <select name="idnhacungcap">
-                                                    <?php while ($row_category=$result_category->fetch_assoc()) {?>
-                                                        <option value="<?php echo $row_category['maNCC'];?>" <?php if($row_category['maNCC']==$row['maNCC']) echo ' selected' ?>>
+                            <div class="form-floating mb-3">
+                               <b style="margin-right: 70px">Nhà cung cấp:  </b>
+                               <select name="idnhacungcap">
+                            <?php 
+                               // Kiểm tra xem $result_category có dữ liệu không
+                               if(isset($result_category) && $result_category->num_rows > 0) {
+                               // Nếu có dữ liệu, thực hiện vòng lặp để tạo option
+                               while ($row_category = $result_category->fetch_assoc()) {
+                            ?>
+                            <option value="<?php echo $row_category['MaNCC'];?>" <?php if(isset($rowcn) && $row_category['MaNCC']==$rowcn['MaNCC']) echo ' selected'; ?>>
+                            <?php echo $row_category['TenNCC']; ?>
+                            </option>
+                            <?php
+                            }
+                            }
+                            ?>
+                            </select>  
+                            </div>
 
-                                                            <?php echo $row_category['tenNCC']; ?>
-                                                            
-                                                        </option>
-                                                    <?php } ?>
-                                                </select>  
-                                            
-                                            </div>
 
                                             
                                              <!-- <?php
@@ -154,7 +186,7 @@
                                            
 
                                             <div class="mt-4 mb-0">
-                                                <input type="hidden" name="idsanpham" value="<?php echo $row["maSP"];?>">
+                                                <input type="hidden" name="idhang" value="<?php echo $rowcn["Mahang"];?>">
                                                 <button class="btn btn-primary" type="submit" name="sbm">Cập nhật
                                                 </button>
                                                 

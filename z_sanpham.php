@@ -58,7 +58,7 @@
                                         <tr >
                                             <th style="text-align: center;">STT</th>
                                             <th style="text-align: center;">ID</th>  
-                                            <th style="text-align: center;">Tên sản phẩm</th>
+                                            <th style="text-align: center;">Tên hàng</th>
                                             <th style="text-align: center;">Tồn đầu kì</th> 
                                             <th style="text-align: center;">Số lượng nhập</th> 
                                             <th style="text-align: center;">Số lượng xuất</th>
@@ -67,19 +67,6 @@
                                             <th style="text-align: center;"></th> -->
                                         </tr>
                                     </thead>
-                                    <tfoot >
-                                        <tr >
-                                        <th style="text-align: center;">STT</th>
-                                            <th style="text-align: center;">ID</th>  
-                                            <th style="text-align: center;">Tên sản phẩm</th>
-                                            <th style="text-align: center;">Tồn đầu kì</th> 
-                                            <th style="text-align: center;">Nhập trong kì</th> 
-                                            <th style="text-align: center;">Xuất trong kì</th>
-                                            <th style="text-align: center;">Tồn cuối kì</th>                                  
-                                            <!-- <th style="text-align: center;"></th>
-                                            <th style="text-align: center;"></th> -->
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                     <?php    
                                     include("config/connection.php");
@@ -89,29 +76,29 @@
                                             $ngaybd=date("Y/m/d",$a);
                                             $b=strtotime($_GET['ngaykt']);
                                             $ngaykt=date("Y/m/d",$b);
-                                        $sql = "SELECT c.tenSP,b.maSP, sum(b.soluong) as sl_nhap 
-                                        FROM tbl_phieunhapkho 
-                                        as a INNER join tbl_chitietpnk as b
-                                         on a.maPNK=b.maPNK 
-                                         INNER join tbl_sanpham as c 
-                                         on b.maSP=c.maSP 
-                                         WHERE ngaylap BETWEEN '$ngaybd' and '$ngaykt'
-                                          GROUP by b.maSP
-                                          order by b.maSP ASC
+                                        $sql = "SELECT c.TenHang,b.MaHang, sum(b.SoLuongNhap) as sl_nhap 
+                                        FROM pnh as a 
+                                        INNER join chitietpnh as b
+                                         on a.MaPhieuNhapH=b.MaPhieuNhapH 
+                                         INNER join hanghoa as c 
+                                         on b.MaHang=c.MaHang 
+                                         WHERE NgayLapPhieu BETWEEN '$ngaybd' and '$ngaykt'
+                                          GROUP by b.MaHang
+                                          order by b.MaHang ASC
                                           ;";
-                                         $sql1 = "SELECT c.tenSP,b.maSP, sum(b.soluongxuat) as sl_xuat FROM tbl_phieuxuathang as a INNER join tbl_chitietpxh as b on a.maPXH=b.maPXH INNER join tbl_sanpham as c on b.maSP=c.maSP WHERE a.ngaylap BETWEEN '$ngaybd' and '$ngaykt' GROUP by b.maSP order by b.maSP ASC;";
+                                         $sql1 = "SELECT c.MaHang,b.TenHang, sum(b.SoLuongXuat) as sl_xuat FROM phieuxuathang as a INNER join chitietpxh as b on a.MaPhieuXuatH=b.MaPhieuXuatH INNER join hanghoa as c on b.MaHang=c.MaHang WHERE a.NgayLapPhieu BETWEEN '$ngaybd' and '$ngaykt' GROUP by b.MaHang order by b.MaHang ASC;";
                             
                                          $nxt = $con -> query($sql);
                                          $nxt1 = $con -> query($sql1);
                                          $i=0;
                                          while ($row = $nxt ->fetch_assoc()) {
                                          $i++;
-                                         $a=$row['maSP'];
+                                         $a=$row['MaHang'];
                                      ?>
                                          <tr>
                                              <td><?php echo $i;?></td>                                           
-                                             <td style="text-align: center;"><?php echo $row['maSP']; ?></td>
-                                             <td><?php echo $row['tenSP']; ?></td>
+                                             <td style="text-align: center;"><?php echo $row['MaHang']; ?></td>
+                                             <td><?php echo $row['TenHang']; ?></td>
                                              <td style="text-align: center;"><?php echo ton_dauki($a,$ngaybd); ?></td>
                                              <td style="text-align: center;"><?php if($row['sl_nhap']==''){ echo 0;} else echo $row['sl_nhap']; ?></td>
                                              <td style="text-align: center;"><?php echo sl_xuat($a,$ngaybd,$ngaykt); ?></td>
@@ -128,10 +115,10 @@
                                    
                                 ;?>
                                 <?php
-                                    function sl_xuat($id,$start,$begin)
+                                    function sl_xuat($a,$ngaybd,$ngaykt)
                                      {
                                        include("config/connection.php"); 
-                                       $sql1 = "SELECT c.tenSP,b.maSP, sum(b.soluongxuat) as sl_xuat FROM tbl_phieuxuathang as a INNER join tbl_chitietpxh as b on a.maPXH=b.maPXH INNER join tbl_sanpham as c on b.maSP=c.maSP WHERE a.ngaylap BETWEEN '$start' and '$begin' and b.maSP=$id;;";
+                                       $sql1 = "SELECT c.TenHang,b.MaHang, sum(b.SoLuongXuat) as sl_xuat FROM phieuxuathang as a INNER join chitietpxh as b on a.MaPhieuXuatH=b.MaPhieuXuatH INNER join hanghoa as c on b.MaHang=c.MaHang WHERE a.NgayLapPhieu BETWEEN '$ngaybd' and '$ngaykt' and b.MaHang='$a';;";
                                        $nxt1 = $con -> query($sql1);
                                       $row1 = $nxt1 ->fetch_assoc();
                                       $a=$row1['sl_xuat'];
@@ -146,16 +133,16 @@
                                      }
                                      ?>
                                 <?php
-                                                function ton_dauki($id,$start)
+                                                function ton_dauki($a,$ngaybd)
                                                 {
                                                 include("config/connection.php"); 
-                                                $sql2 = "SELECT sum(b.soluong) as sl_dauki FROM tbl_phieunhapkho as a inner join tbl_chitietpnk as b on a.maPNK=b.maPNK WHERE ngaylap BETWEEN '2023/01/01' and '$start' and b.maSP=$id;";
-                                                $nxt2 = $con -> query($sql2);
-                                                $row2 = $nxt2 ->fetch_assoc();
+                                                $sql2 = "SELECT sum(b.SoLuongNhap) as sl_dauki FROM pnh as a inner join chitietpnh as b on a.MaPhieuNhapH=b.MaPhieuNhapH WHERE NgayLapPhieu BETWEEN '2023/01/01' and '$ngaybd' and b.MaHang='$a';";
+                                                $nxt2 = $con->query($sql2);
+                                                $row2 = $nxt2->fetch_assoc();
                                                 $a=$row2['sl_dauki'];
-                                                $sql3 = "SELECT sum(b.soluong) as sl_dauki FROM tbl_phieuxuathang as a inner join tbl_chitietpnk as b WHERE ngaylap BETWEEN '2023/01/01' and '$start' and b.maSP=$id;";
-                                                  $nxt3 = $con -> query($sql3);
-                                                 $row3 = $nxt3 ->fetch_assoc();
+                                                $sql3 = "SELECT sum(b.SoLuongXuat) as sl_dauki FROM phieuxuathang as a inner join chitietpxh as b WHERE NgayLapPhieu BETWEEN '2023/01/01' and '$ngaybd' and b.MaHang='$a';";
+                                                  $nxt3 = $con->query($sql3);
+                                                 $row3 = $nxt3->fetch_assoc();
                                                  $b=$row3['sl_dauki'];
                                                 if($b!='')
                                                 return $a-$b;

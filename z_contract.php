@@ -1,18 +1,18 @@
 <?php
-include('../tfpdf/tfpdf.php');
-include("config/connection.php");
+include('tfpdf/tfpdf.php');
+include('connection.php');
 
 
 $pdf = new tFPDF();
 $pdf->AddPage("0");
 // $pdf->SetFont('Arial','B',16);
 // $pdf->Cell(40,10,'Hello World!');
-$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+$pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 $pdf->SetFont('DejaVu','',12);
 
 
-$maPNH = $_GET['maPNH']; 
-$sql= mysqli_query($con,"SELECT *,a.soluong as sl,a.soluong*b.dongia as tt FROM tbl_chitietpnh as a inner join tbl_sanpham as b on a.maSP=b.maSP where a.maPNH=$maPNH;");
+$maPNH = $_GET['MaPhieuNhapH']; 
+$sql= mysqli_query($con,"SELECT *,a.SoLuongNhap as sl,a.SoLuongNhap*b.DonGiaNhap as tt FROM chitietpnh as a inner join hanghoa as b on a.MaHang=b.MaHang where a.MaPhieuNhapH=$maPNH;");
 class PDF extends tFPDF
 {
 // Page header
@@ -95,16 +95,16 @@ $pdf->Write(15,'ĐIỀU 3: THỰC HIỆN HỢP ĐỒNG');
 	while($row = mysqli_fetch_array($sql)){
 		$i++;
 	$pdf->Cell($width_cell[0],10,$i,1,0,'C',$fill);
-	$pdf->Cell($width_cell[1],10,$row['maSP'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[2],10,$row['tenSP'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[3],10,$row['sl'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[4],10,number_format($row['dongia']),1,0,'C',$fill);
+	$pdf->Cell($width_cell[1],10,$row['MaHang'],1,0,'C',$fill);
+	$pdf->Cell($width_cell[2],10,$row['TenHang'],1,0,'C',$fill);
+	$pdf->Cell($width_cell[3],10,$row['SoLuongNhap'],1,0,'C',$fill);
+	$pdf->Cell($width_cell[4],10,number_format($row['DonGiaNhap']),1,0,'C',$fill);
 	$pdf->Cell($width_cell[5],10,$row['DVT'],1,0,'C',$fill);
 	$pdf->Cell($width_cell[6],10,number_format($row['tt']),1,1,'C',$fill);
 	$fill = !$fill;
 
 	}
-	$sql_total=mysqli_query($con, "SELECT sum(a.soluong*b.dongia) as total FROM tbl_chitietpnh as a join tbl_sanpham as b on a.maSP=b.maSP WHERE a.maPNH=$maPNH");
+	$sql_total=mysqli_query($con, "SELECT sum(a.SoLuongNhap*b.DonGiaNhap) as total FROM chitietpnh as a join hanghoa as b on a.MaHang=b.MaHang WHERE a.MaPhieuNhapH=$maPNH");
 
     $width_cell=array(185,35);
     $pdf->Cell($width_cell[0],10,'Tổng tiền',1,0,'L',true);

@@ -24,8 +24,8 @@
 
 <main>
 <?php
-	include('../db/connect.php');
-    $maPNH= $_GET['maPNH'];
+	include('connection.php');
+    $maPNH= $_GET['MaPhieuNhapH'];
 ?>
 
 <div class="row">
@@ -44,7 +44,7 @@
     
     </div>
     <div class="col-sm">
-    <a class="btn btn-primary" style="color: white" href="z_contract.php?maPNH=<?php echo $maPNH; ?>">Tạo hợp đồng</a>
+    <a class="btn btn-primary" style="color: white" href="z_contract.php?MaPhieuNhapH=<?php echo $maPNH; ?>">Tạo hợp đồng</a>
     </div>
   </div>
                             
@@ -54,15 +54,15 @@
 					
                         <?php
                                 
-                    $sql_nv = mysqli_query($con,"SELECT * FROM tbl_phieunhaphang as a INNER join tbl_nhanvien as b on a.maNV=b.maNV WHERE a.maPNH=$maPNH;"); 
+                    $sql_nv = mysqli_query($con,"SELECT * FROM pnh as a INNER join nhanvien as b on a.MaNV=b.IDNhanvien WHERE a.MaPhieuNhapH=$maPNH;"); 
                     $row = mysqli_fetch_assoc($sql_nv);
                                     ?>
                   
                     <table style="width:100%" border="1" >
 						<tr>
-							<td style="font-size: 18px;"><b> Nhân viên:</b> <?php echo $row['tenNV']; ?> </td>
+							<td style="font-size: 18px;"><b> Nhân viên:</b> <?php echo $row['TenNV']; ?> </td>
 							<td ><p style="color:white">......................................................</p><td>	
-							<td style="padding-right:0; font-size: 18px;"> <b>Ngày lập phiếu: </b> <?php echo $row['ngaylap']; ?>  </td>
+							<td style="padding-right:0; font-size: 18px;"> <b>Ngày lập phiếu: </b> <?php echo $row['NgayLapPhieu']; ?>  </td>
 						</tr>
 						<tr>
 							<td style="font-size: 18px;"><b>Mã phiếu nhập hàng:</b>  <?php echo $maPNH ?> <td>	
@@ -72,46 +72,56 @@
 				<table class="table table-bordered "  style="margin-top: 10px;border: 2px solid black;">
                                                 <tr style="background-color: lightgray;">
                                                     <th style="text-align: center">Thứ tự</th>
-                                                    <th style="text-align: center">Mã sp</th>
-                                                    <th style="text-align: center">Tên sản phẩm</th>
-                                                    <th style="text-align: center">Số lượng</th>
-                                                    <th style="text-align: center">Đơn giá</th>
+                                                    <th style="text-align: center">Mã Hàng</th>
+                                                    <th style="text-align: center">Tên Hàng</th>
+                                                    <th style="text-align: center">Số lượng nhập</th>
+                                                    <th style="text-align: center">Đơn giá nhập</th>
                                                     <th style="text-align: center">Thành tiền</th>
                                                     <th style="text-align: center">Tác vụ</th>
                                                 </tr>
 					
                             <?php
-                                        $i = 0; 
-                                        $sql = "SELECT b.maSP,b.tenSP,a.soluong,b.dongia FROM `tbl_chitietpnh` as a INNER JOIN tbl_sanpham as b ON a.maSP=b.maSP WHERE a.maPNH=$maPNH;";                  
-                                        $san_pham = $con -> query($sql);
+                                        include('connection.php');
                                         $i=0;
+                                        $sqlhh = "SELECT b.MaHang,b.TenHang,a.SoLuongNhap,b.DonGiaNhap 
+                                        FROM chitietpnh as a JOIN hanghoa as b ON a.MaHang=b.MaHang 
+                                        Where a.MaPhieuNhapH = $maPNH;";  
+                                        $san_pham = $con -> query($sqlhh);
+                                       
                                         while ($row_phieu = $san_pham ->fetch_assoc()) {
                                         $i++;
+                                        
                             ?> 
                                                 <tr>
-                                                    <td colspan="" style="text-align: center"><?php echo $i; ?></td>
-                                                    <td style="text-align: center"><?php echo $row_phieu['maSP']; ?></td>
-                                                    <td style="text-align: center"><?php echo $row_phieu['tenSP']; ?></td>
-                                                    <td style="text-align: center"><?php echo $row_phieu['soluong']; ?></td>
-                                                    <td style="text-align: center"><?php echo number_format($row_phieu['dongia']); ?></td>
-                                                    <td style="text-align: center"><?php echo number_format($row_phieu['dongia']*$row_phieu['soluong']); ?></td>		
-                                                    <td style="text-align: center"><a style="color: white" class="btn btn-primary" href="z_pnh_view_detail_update.php?maSP=<?php echo $row_phieu['maSP']; ?>">Sửa</a></td>
+                                                    <td colspan="1" style="'text-align: center"><?php echo $i; ?></td>
+                                                    <td style="text-align: center"><?php echo $row_phieu['MaHang']; ?></td>
+                                                    
+                                                    <td style="text-align: center"><?php echo $row_phieu['TenHang']; ?></td>
+                                                    <td style="text-align: center"><?php echo $row_phieu['SoLuongNhap']; ?></td>
+                                                    <td style="text-align: center"><?php echo number_format($row_phieu['DonGiaNhap']); ?></td>
+                                                    <td style="text-align: center"><?php echo number_format($row_phieu['DonGiaNhap']*$row_phieu['SoLuongNhap']); ?></td>		
+                                                    <td style="text-align: center"><a style="color: white" class="btn btn-primary" href="z_pnh_view_detail_update.php?maSP=<?php echo $row_phieu['MaHang']; ?>">Sửa</a></td>
                                                 </tr>
                             <?php
                             
                             } 
+
                            
                             ?> 
                             <tr style="background-color: lightgray;">
-                                <?php
-                                    $sql_tt = mysqli_query($con,"SELECT sum(a.soluong*b.dongia) as tt FROM `tbl_chitietpnh` as a INNER join tbl_sanpham as b on a.maSP=b.maSP WHERE a.maPNH=$maPNH;"); 
-                                    $row_tt = mysqli_fetch_assoc($sql_tt);
-                                ?>
-                                <td style="text-align: center"><b>Tổng tiền</b></td>
-                                <td colspan="4"></td>
-                                <td style="text-align: center"><b><?php echo number_format($row_tt['tt']); ?></b></td>
-                                <td></td>
-                            </tr>
+                              <td style="text-align: center"><b>Tổng tiền</b></td>
+                              <td colspan="4"></td>  <td style="text-align: center"><b><?php
+                                  $sql_tt = mysqli_query($con, "SELECT SUM(a.SoLuongNhap * b.DonGiaNhap) AS tt 
+                                 FROM chitietpnh AS a JOIN hanghoa AS b 
+                                 ON a.MaHang = b.MaHang 
+                                 WHERE a.MaPhieuNhapH = $maPNH;");
+                                 $row_tt = mysqli_fetch_assoc($sql_tt);
+                                echo number_format($row_tt['tt']);
+                                ?></b></td>
+                                   <td></td>
+                                </tr>
+
+                            
                                                     <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -139,7 +149,7 @@
                                             </div> 
                                             <?php
                                                     include("config/connection.php");
-                                                    $sql_category="SELECT * FROM tbl_nhacungcap";
+                                                    $sql_category="SELECT * FROM nhacungcap";
                                                     $result_category=$con->query($sql_category);
                                                             
                                             ?> 
@@ -148,9 +158,9 @@
                                                 <b style="margin-right: 70px">Nhà cung cấp:  </b>
                                                <select name="id">
                                                     <?php while ($row_category=$result_category->fetch_assoc()) {?>
-                                                        <option value="<?php echo $row_category['maNCC'];?>">
+                                                        <option value="<?php echo $row_category['MaNCC'];?>">
 
-                                                            <?php echo $row_category['tenNCC']; ?>
+                                                            <?php echo $row_category['TenNCC']; ?>
                                                         
                                                         </option>
                                                         

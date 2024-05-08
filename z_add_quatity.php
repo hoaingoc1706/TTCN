@@ -6,20 +6,20 @@ include("config/connection.php");
 $action=(isset($_GET['action']))?$_GET['action']:'add';
 $sl=(isset($_GET['sl']))?$_GET['sl']:1;
 
-if(isset($_GET['maSP']))
+if(isset($_GET['MaHang']))
 {
-    $id=$_GET['maSP'];
+    $id=$_GET['MaHang'];
 }
 //else echo"ko có";
-$query=mysqli_query($con,"select * from tbl_sanpham where maSP = $id ");
+$query=mysqli_query($con,"select * from hanghoa where MaHang = $id ");
 if($query)
 {
     $product= mysqli_fetch_assoc($query);
 }
 $item=
 [
-    'id'=>$product['maSP'],
-    'name'=>$product['tenSP'],
+    'id'=>$product['MaHang'],
+    'name'=>$product['TenHang'],
     'sl'=>$sl
 ];
 if($action=='update')

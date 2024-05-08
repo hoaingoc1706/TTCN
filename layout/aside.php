@@ -25,7 +25,7 @@
                        Quản trị Nhà cung cấp                                                           
                    </a> 
       
-                <a class="nav-link collapsed" href="tintuc.php" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                     <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
                     Quản trị nhập hàng
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -33,12 +33,6 @@
                 <div class="collapse" id="collapseFive" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                         <!-- PHÂN QUYỀN -->
-
-                        <a class="nav-link" href="z_pnk.php">Nhập kho</a>   
-
-
-                        <a class="nav-link" href="z_pnk_detail.php">Phiếu nhập kho</a>
-
 
                         <a class="nav-link" href="z_pnh.php">Nhập hàng</a>  
                             

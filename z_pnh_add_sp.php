@@ -15,14 +15,18 @@
 <?php
 include("config/connection.php");
 // if(isset($_POST['sbm'])){ 
-    $tensanpham=$_GET["tensanpham"];
+    $tensanpham=$_GET["TenHang"];
     // $sanpham_chitiet=$_POST["sanpham_chitiet"];
-    $mota=$_GET["mota"];
-    $dongia=$_GET["dongia"];
-    $soluong=$_GET["soluong"];
+    $mota=$_GET["MoTa"];
+    $dongianhap=$_GET["DonGiaNhap"];
+    $dongiaban=$_GET["DonGiaBan"];
+    $soluong=$_GET["SoLuong"];
     $DVT=$_GET["DVT"];
-    $idtheloai=$_GET["idtheloai"];
-    $idnhacungcap=$_GET["idnhacungcap"];
+    $idtheloai=$_GET["MaLoaiHang"];
+    $idnhacungcap=$_GET["MaNCC"];
+    $ghichu=$_GET["GhiChu"];
+    $Ngaysx=$_GET["NgaySanXuat"];
+    $Hansd=$_GET["HanSuDung"];
 
     // $noi_luu_anh = "../../luckyshoes/images/".basename($_FILES["hinhanh"]['name']);
     // $luu_file_anh = $_FILES['hinhanh']['tmp_name'];
@@ -36,7 +40,7 @@ include("config/connection.php");
     // }
 
 
-    $sql_select = "SELECT maSP FROM tbl_sanpham where tenSP='$tensanpham'";
+    $sql_select = "SELECT MaHang FROM hanghoa where TenHang='$tensanpham'";
     $result_select = $con -> query($sql_select);
     if($result_select->num_rows>0){
       echo "
@@ -50,8 +54,8 @@ include("config/connection.php");
 
     // $sql = "INSERT INTO tbl_sanpham (sanpham_name,sanpham_chitiet,sanpham_mota,sanpham_gia,sanpham_giakhuyenmai,sanpham_active,sanpham_hot,sanpham_soluong,category_id, sanpham_image) VALUES ('$sanpham_name','$sanpham_chitiet','$sanpham_mota',$sanpham_gia,$sanpham_giakhuyenmai,$sanpham_active,$sanpham_hot,$sanpham_soluong,$category_id,'$sanpham_image')";
 
-    $sql= "INSERT INTO `tbl_sanpham`(`tenSP`, `maloai`, `maNCC`, `soluong`, `dongia`, `DVT`, `mota`)
-           VALUES ('$tensanpham','$idtheloai','$idnhacungcap','$soluong','$dongia','$DVT','$mota')";
+    $sql= "INSERT INTO `hanghoa`(`TenHang`,`SoLuong`, `DonGiaNhap`, `DonGiaBan`, `DVT`, `NgaySanXuat`, `HanSuDung`, `MoTa`, `GhiChu`, `MaLoaiHang`,`MaNCC`)
+           VALUES ('$tensanpham','$soluong','$dongianhap','$dongiaban','$DVT','$Ngaysx','$Hansd','$mota','$ghichu','$idtheloai','$idnhacungcap')";
     if($con -> query($sql)===True){
          echo "
                 <script type='text/javascript'>
