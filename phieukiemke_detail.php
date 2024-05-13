@@ -32,21 +32,21 @@ table, th, td {
             <footer class="container-fluid px-4">
                 <main>
                     <div class="container-fluid px-4">
-                        <h2 class="mt-4">Phiếu nhập hàng</h2>
+                        <h2 class="mt-4">Phiếu kiểm kê hàng hóa</h2>
                         
                         <div class="card mb-4">
                             <div class="card-header">  
                                 <i class="fas fa-home"> </i> <a style="text-decoration:none; color:black" href="index.php"> <b>Trang chủ</b></a>
                             </div>
                             <div class="card-body" >
-                                 <h5 style="text-align:center"> <B>NHẬP HÀNG </B></h5>
+                                 <h5 style="text-align:center"> <B>THÔNG TIN CÁC PHIẾU</B></h5>
                                 <table  id="datatablesSimple" >
                                     <thead>
                                         <tr >
                                             <th>ID</th>
                                             <th>Mã phiếu</th>
                                             <th>Mã nhân viên lập phiếu</th>
-                                            <th>Tên nhân viên lập phiếu</th>
+                                            <th >Nhân viên lập phiếu</th>
                                             <th >Ngày lập phiếu</th>
                                             <th>Xem chi tiết</th>
                                           
@@ -60,7 +60,7 @@ table, th, td {
                                             // $sql_select1 = mysqli_query($con,"SELECT * FROM tbl_phieuxuathang as a ,tbl_nhanvien as b, tbl_chitietpxh as d
                                             // WHERE a.maNV=b.maNV AND a.maPXH=d.maPXH and a.tinhtrang = 'Từ chối' or a.tinhtrang='Đã xử lý' or a.tinhtrang='Chưa xử lý' GROUP BY a.maPXH ORDER BY ngaylap DESC"); 
                             
-                                            $sql = "SELECT * from pnh as a join nhanvien as b on a.MaNV=b.IDNhanvien;";
+                                            $sql = "SELECT * from phieukiemkehang as a join nhanvien as b on a.MaNV=b.IDNhanvien;";
                                             $tintuc = $con -> query($sql);
                                             $i=0;
                                             while ($row = $tintuc ->fetch_assoc()) {
@@ -70,17 +70,16 @@ table, th, td {
                                         ?>
                                         <tr>
                                             <td><?php echo $i;?></td>
-                                            <td><?php echo $row["MaPhieuNhapH"];?></td>
+                                            <td><?php echo $row["MaPhieuKKH"];?></td>
                                             
                                             <td><?php echo $row["IDNhanvien"];?></td>
 
                                             <td><?php echo $row["TenNV"];?></td>
 
-                                            <td><?php echo $row["MaPhieuDatH"];?></td>
                                             
                                             <td><?php echo $row["NgayLapPhieu"];?></td>
                                          
-                                            <td><a class="btn btn-danger" style="color:white" href="z_pnh_view_detail.php?MaPhieuNhapH=<?php echo $row["MaPhieuNhapH"];?>">Chi tiết</a></td>
+                                            <td><a class="btn btn-danger" style="color:white" href="phieukiemke_view_detail.php?MaPhieuKKH=<?php echo $row["MaPhieuKKH"];?>">Chi tiết</a></td>
                                         </tr>
                                         <?php
                                         }

@@ -32,6 +32,7 @@
                                 <i class="fas fa-table me-1"></i><a href="loaisanpham.php" style="text-decoration: none; color:black"> <b>Loại Sản Phẩm</b> </a>
                                || Danh sách sản phẩm 
                                 <a class="btn btn-primary" href="sanphamthemmoi.php" style="color: white; margin-left: 550px"><b>Thêm mới</b></a> 
+                                <a class="btn btn-primary" href="phieukiemke_detail.php" style="color: white; margin-left: 20px"><b>Phiếu kiểm kê</b></a> 
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">

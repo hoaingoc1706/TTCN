@@ -73,6 +73,7 @@ $pdf->Cell($width_cell[0],10, 'Tên khách hàng ',1,0,'L',true);
 	$pdf->Cell($width_cell[6],10,number_format($row_phieu['soluongdoi']*$row_phieu['dongia']),1,1,'R',$fill);
 	// $fill = !$fill;
     $fill=false;
+	$pdf->Ln();
 	}
     $width_cell=array(230,40);
 	

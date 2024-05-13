@@ -15,7 +15,8 @@
                 <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                         <a class="nav-link" href="sanpham.php"> Sản phẩm</a>                                                            
-                        <a class="nav-link" href="loaisanpham.php">Loại sản phẩm</a> 
+                        <a class="nav-link" href="loaisanpham.php">Loại sản phẩm</a>
+                        <a class="nav-link" href="phieukiemke_detail.php">Phiếu kiểm kê</a>
 
                 </div>                     
 

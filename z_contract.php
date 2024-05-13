@@ -37,7 +37,7 @@ $pdf->Cell(275,10,'Độc lập - tự do - hạnh phúc',5,100,'C');
 $pdf->Ln(0);
 $pdf->Cell(270,10,'_ _ _ _ _ _',5,100,'C');
 $pdf->Ln(1);
-$pdf->Cell(490,10,'Hà Nội, ngày    tháng    năm 2023',5,100,'C');
+$pdf->Cell(490,10,'Hà Nội, ngày    tháng    năm 2024',5,100,'C');
 $pdf->Ln(1);
 $pdf->Cell(270,10,'HỢP ĐỒNG MUA THIẾT BỊ',5,100,'C'); 
 $pdf->Write(15,'Căn cứ: Bộ luật dân sự 2015'); 
