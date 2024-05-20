@@ -29,7 +29,9 @@ if(!isset($_SESSION['dangnhap_home'])) {
                         <div class="card-header">      <i class="fas fa-home"> </i>  <a style="text-decoration: none;color:black" href="index.php"> <b>Trang chủ</b></a>
                             <i class="fas fa-table me-1"></i>
                             Danh sách nhà cung cấp
+                            <a href="nhacungcapthem.php" class="btn btn-primary" style="margin-left:610px"><b> Thêm mới</b></a>
                         </div>
+                        
                         <div class="card-body">
                             <table id="datatablesSimple">
                                 <thead>
@@ -43,7 +45,7 @@ if(!isset($_SESSION['dangnhap_home'])) {
                                         <th>Xóa</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
+                                <!-- <tfoot>
                                     <tr>
                                         <th>STT</th>
                                         <th>Mã Nhà Cung Cấp</th>
@@ -53,16 +55,14 @@ if(!isset($_SESSION['dangnhap_home'])) {
                                         <th>Số điện thoại</th>                                                                                
                                         <th>Xóa</th>
                                     </tr>
-                                </tfoot>
+                                </tfoot> -->
                                 <tbody>
                                     <?php
                                         // 1. Load file cấu hình để kết nối đến máy chủ CSDL, CSDL
                                     include("config/connection.php");
 
                                         // 2. Viết câu lệnh truy vấn để lấy ra dữ liệu mong muốn (TIN TỨC đã lưu trong CSDL)
-                                    $sql = " SELECT *
-    FROM tbl_nhacungcap
-    ORDER BY maNCC ASC 
+                                    $sql = " SELECT * FROM nhacungcap ORDER BY maNCC ASC 
                                     ";
                                         // 3. Thực thi câu lệnh lấy dữ liệu mong muốn
                                     $result=$con->query($sql);
@@ -74,51 +74,16 @@ if(!isset($_SESSION['dangnhap_home'])) {
 
                                         <tr>
                                             <td><?php echo $i;?></td>
-                                            <td><?php echo $row["maNCC"];?></td>
-                                            <td><?php echo $row["tenNCC"];?></td>
-                                            <td><?php echo $row["diachi"];?></td>
-                                            <td><?php echo $row["email"];?></td>
-                                            <td><?php echo $row["sdt"];?></td>
+                                            <td><?php echo $row["MaNCC"];?></td>
+                                            <td><?php echo $row["TenNCC"];?></td>
+                                            <td><?php echo $row["DiaChi"];?></td>
+                                            <td><?php echo $row["Email"];?></td>
+                                            <td><?php echo $row["SDT"];?></td>
                                             <td>
                                                                                   <!-- PHÂN QUYỀN -->
-                                 <!-- PHÂN QUYỀN -->
-                                 <?php
-    include("config/connection.php");
-        $sql = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK where tennguoidung='".$_SESSION['ten_admin']."'";
-        $kq = mysqli_query($con, $sql);
-        $rowql = mysqli_fetch_array($kq);
-    if ($rowql['maCV']=="4") 
-    {
-        $check=1;
-    }
-    else
-        $check=0;
-;?>
 
-<?php 
-    $sql26 = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK ";
-    $ket_qua26 = mysqli_query($con, $sql26);
-    $row1 = mysqli_fetch_array($ket_qua26);
-    if($row1['maCV']=="4") $kiem_tra26=1;
-    else $kiem_tra26=0;
-;?>
-<!--  -->
-<?php
-    if($check==1 && $kiem_tra26==1)
-    {
-;?>
-                                                 <a  style="color: white" class="btn btn-danger"  onclick=" return Del('<?php echo $row['email']; ?>')" href="nhacungcapxoa.php?maNCC=<?php echo $row['maNCC']; ?>">Xóa</a>
-                                                 <?php 
-}
-else
-{
-;?>       
-<a  class="btn btn-danger" style="color:white" href="" onclick="alert('Bạn không có quyền dùng chức năng này')">Xóa</a>                                    
-  <?php
-}
-;?>
-<?php
-;?>            
+                                                 <a  style="color: white" class="btn btn-danger"  onclick=" return Del('<?php echo $row['Email']; ?>')" href="nhacungcapxoa.php?maNCC=<?php echo $row['MaNCC']; ?>">Xóa</a>
+      
 
                                                 </td>
                                         </tr>

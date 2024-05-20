@@ -3,16 +3,16 @@ session_start();
 include("config/connection.php"); 
 $maPXH=$_GET["maPXH"];
 
-$sql = "  SELECT *, (a.soluong-b.soluongxuat) as update_sl FROM tbl_sanpham AS a INNER JOIN tbl_chitietpxh AS b 
-              on a.maSP=b.maSP where b.maPXH=$maPXH";
+$sql = "  SELECT *, (a.soluong-b.soluongxuat) as update_sl FROM hanghoa AS a INNER JOIN chitietpycxh AS b 
+              on a.mahang=b.mahang where b.maPhieuycXH=$maPXH";
 
 $sql1 = $con ->query($sql);
 
       while($row=$sql1 ->fetch_assoc()){
-    $id=$row['maSP'];
+    $id=$row['MaHang'];
     $sl=$row['update_sl'];
-    mysqli_query($con,"UPDATE tbl_sanpham SET `soluong`= $sl WHERE maSP=$id");
-    mysqli_query($con, "UPDATE `tbl_phieuxuathang` SET `tinhtrang`='Đã xử lý' WHERE maPXH=$maPXH");
+    mysqli_query($con,"UPDATE hanghoa SET `soluong`= $sl WHERE mahang= '".$id."' ");
+    mysqli_query($con, "UPDATE `phieuyeucauxuathang` SET `tinhtrang`='Đã xử lý' WHERE maPhieuycXH= '".$maPXH."' ");
 }
 
 echo "

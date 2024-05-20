@@ -2,23 +2,22 @@
 session_start();
 include("config/connection.php"); 
 $maBBDH=$_GET["maBBDH"];
-require('../mail/send.php');
-$sql = "  SELECT *, (a.soluong-b.soluongdoi) as update_sl FROM tbl_sanpham AS a INNER JOIN tbl_chitietdh AS b 
-              on a.maSP=b.maSP where b.maBBDH=$maBBDH";
+$sql = "  SELECT *, (a.soluong-b.soluongdoi) as update_sl FROM hanghoa AS a INNER JOIN chitietpdoih AS b 
+              on a.mahang=b.mahang where b.maphieudoiH=$maBBDH";
 
   $sql1 = $con ->query($sql);
 
       while($row=$sql1 ->fetch_assoc()){
-    $id=$row['maSP'];
+    $id=$row['MaHang'];
     $sl=$row['update_sl'];
     // mysqli_query($con,"UPDATE tbl_sanpham SET `soluong`= $sl WHERE maSP=$id");
-    mysqli_query($con, "UPDATE `tbl_doihang` SET `tinhtrangdh`='Đã xử lý' WHERE maBBDH=$maBBDH");
+    mysqli_query($con, "UPDATE `phieudoihang` SET `tinhtrang`='Đã xử lý' WHERE maphieudoiH=$maBBDH");
 }
 echo "
 <script type='text/javascript'>
 window.alert('Phiếu đổi hàng được tạo thành công'); 
 
-window.location.href='xemchitiet_BBDH.php?maBBDH= $maBBDH';
+window.location.href='xemchitiet_BBDH.php?maBBDH=$maBBDH';
 </script>;"
 
 ?>

@@ -60,26 +60,18 @@ table, th, td {
                                             <th>Xem chi tiết</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Mã phiếu</th>
-                                            <th>Nhân viên lập phiếu</th>
-                                            <th>Ngày lập phiếu</th>
-                                            <th>Xem chi tiết</th>
-                                        </tr>
-                                    </tfoot>
+                                    
                                     <tbody>
 
                                         <?php
                                             include("config/connection.php");
                                         
                                         
-                                            $sql_select2 = mysqli_query($con,"SELECT * FROM tbl_doihang as a ,tbl_nhanvien as b, tbl_chitietdh as d
-                                            WHERE a.maNVDH=b.maNV AND a.maBBDH=d.maBBDH and a.tinhtrangdh = 'Từ chối' or a.tinhtrangdh='Đã xử lý' or a.tinhtrangdh='Chưa xử lý' GROUP BY a.maBBDH ORDER BY ngaylap DESC"); 
+                                            $sql_select2 = mysqli_query($con,"SELECT * FROM phieudoihang as a ,nhanvien as b, chitietpdoih as d
+                                            WHERE a.maNV = b.idnhanvien AND a.maphieudoih=d.maphieudoih and a.tinhtrang = 'Từ chối' or a.tinhtrang='Đã xử lý' or a.tinhtrang='Chưa xử lý' GROUP BY a.maphieudoih ORDER BY ngaylapphieu DESC"); 
                             
                                             $sql2 = "
-                                            SELECT * from tbl_doihang as a join tbl_nhanvien as b on a.maNVDH=b.maNV where a.tinhtrangdh= ' ' or a.tinhtrangdh='Chưa xử lý';";
+                                            SELECT * from phieudoihang as a join nhanvien as b on a.maNV=b.idnhanvien where a.tinhtrang= ' ' or a.tinhtrang='Chưa xử lý';";
                                             $tintuc2 = $con -> query($sql2);
                                             $i=0;
                                             while ($row2 = $tintuc2 ->fetch_assoc()) {
@@ -88,38 +80,30 @@ table, th, td {
 
                                           <tr>
                                             <td><?php echo $i;?></td>
-                                            <td><?php echo $row2["maBBDH"];?></td>
-                                            <td><?php echo $row2["tenNV"];?></td>
-                                            <td><?php echo $row2["ngaylap"];?></td>
+                                            <td><?php echo $row2["MaPhieuDoiH"];?></td>
+                                            <td><?php echo $row2["TenNV"];?></td>
+                                            <td><?php echo $row2["NgayLapPhieu"];?></td>
  <!-- PHÂN QUYỀN -->
 <?php
     include("config/connection.php");
-        $sql = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK where tennguoidung='".$_SESSION['ten_admin']."'";
+        $sql = "SELECT * From nhanvien";
         $kq = mysqli_query($con, $sql);
         $rowql = mysqli_fetch_array($kq);
-    if ($rowql['maCV']=="2") 
+    if ($rowql['chucvu']= 'Nhân viên kinh doanh') 
     {
         $check=1;
     }
     else
         $check=0;
 ;?>
-
-<?php 
-    $sql26 = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK ";
-    $ket_qua26 = mysqli_query($con, $sql26);
-    $row1 = mysqli_fetch_array($ket_qua26);
-    if($row1['maCV']=="2") $kiem_tra26=1;
-    else $kiem_tra26=0;
-;?>
 <!--  -->
 <?php
-    if($check==1 && $kiem_tra26!=1)
+    if($check==1)
     {
 ;?>
      
                                        
-                                            <td><a class="btn btn-danger" style="color:white" href="xemchitietBBDH_xacnhan.php?maBBDH=<?php echo $row2["maBBDH"];?>">Xác nhận</a></td>
+                                            <td><a class="btn btn-danger" style="color:white" href="xemchitietBBDH_xacnhan.php?maBBDH=<?php echo $row2["MaPhieuDoiH"];?>">Xác nhận</a></td>
                                             <?php 
 }
 else

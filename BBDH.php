@@ -47,28 +47,20 @@ table, th, td {
 <!-- PHÂN QUYỀN -->
 <?php
     include("config/connection.php");
-        $sql = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK where tennguoidung='".$_SESSION['ten_admin']."'";
-        $kq = mysqli_query($con, $sql);
-        $rowql = mysqli_fetch_array($kq);
-    if ($rowql['maCV']=="3") 
-    {
-        $check=1;
-    }
-    else
-        $check=0;
-;?>
-
-<?php 
-    $sql26 = "SELECT * From tbl_taikhoan as a join tbl_nhanvien as b on a.maTK=b.maTK ";
-    $ket_qua26 = mysqli_query($con, $sql26);
-    $row1 = mysqli_fetch_array($ket_qua26);
-    if($row1['maCV']=="3") $kiem_tra26=1;
-    else $kiem_tra26=0;
+    $sql = "SELECT * From nhanvien";
+    $kq = mysqli_query($con, $sql);
+    $rowql = mysqli_fetch_array($kq);
+if ($rowql['chucvu']= 'Nhân viên kinh doanh') 
+{
+    $check=1;
+}
+else
+    $check=0;
 ;?>
 <!--  -->
 <?php
-    if($check==1 && $kiem_tra26!=1)
-    {
+if($check==1)
+{
 ;?>
      
 
@@ -107,18 +99,7 @@ else
                                             <th >Xóa</th> -->
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th> ID </th>
-                                            <th>Mã phiếu</th>
-                                            <th>Nhân viên lập phiếu</th>
-                                            <th>Ngày lập phiếu</th>
-                                            <!-- <th>Lý do</th> -->
-                                           <th>Hành động</th>
-                                            <!-- <th>Sửa</th>
-                                            <th>Xóa</th> -->
-                                        </tr>
-                                    </tfoot>
+                                    
                                     <tbody>
 
                                         <?php
@@ -133,7 +114,7 @@ else
                                             // WHERE a.maNV=b.maNV AND a.maBBDH=d.maBBDH and a.maKH=c.maKH and a.tinhtrang = 'Từ chối' or a.tinhtrang='Đã xử lý' or a.tinhtrang='Chưa xử lý' GROUP BY a.maBBDH ORDER BY ngaylap DESC"); 
                             
                                             $sql = "
-                                            SELECT * from tbl_doihang as a join tbl_nhanvien as b on a.maNVDH=b.maNV where a.tinhtrangdh= 'Từ chôi' or a.tinhtrangdh='Chưa xử lý' or a.tinhtrangdh='Đã xử lý';";
+                                            SELECT * from phieudoihang as a join nhanvien as b on a.maNV=b.idnhanvien where a.tinhtrang= 'Từ chôi' or a.tinhtrang='Chưa xử lý' or a.tinhtrang='Đã xử lý';";
                                             $tintuc = $con -> query($sql);
                                             $i=0;
                                             while ($row = $tintuc ->fetch_assoc()) {
@@ -142,23 +123,23 @@ else
 
                                           <tr>
                                             <td><?php echo $i;?></td>
-                                            <td><?php echo $row["maBBDH"];?></td>
+                                            <td><?php echo $row["MaPhieuDoiH"];?></td>
                                             
-                                            <td><?php echo $row["tenNV"];?></td>
+                                            <td><?php echo $row["TenNV"];?></td>
                                             
-                                            <td><?php echo $row["ngaylap"];?></td>
-                                            <!-- <td><?php echo $row["lydo"];?></td> -->
+                                            <td><?php echo $row["NgayLapPhieu"];?></td>
+                                            <!-- <td><?php echo $row["LyDoDoi"];?></td> -->
                                            
                                             <td>
                                                 
-                                                <a class="btn btn-primary" style="color:white" href="xemchitiet_BBDH.php?maBBDH=<?php echo $row["maBBDH"];?>">Xem chi tiết</a>
+                                                <a class="btn btn-primary" style="color:white" href="xemchitiet_BBDH.php?maBBDH=<?php echo $row["MaPhieuDoiH"];?>">Xem chi tiết</a>
                                                 
 <?php
-if($check==1 && $kiem_tra26!=1)
+if($check==1)
 {
 ;?>
                                           
-                                                <a class="btn btn-danger" style="color:white"  onclick="return del ('<?php echo $row['maBBDH'] ?>')" href="xemchitietBBDH_xoa.php?maBBDH=<?php echo $row["maBBDH"];?>">Xóa</a>
+                                                <a class="btn btn-danger" style="color:white"  onclick="return del ('<?php echo $row['MaPhieuDoiH'] ?>')" href="xemchitietBBDH_xoa.php?maBBDH=<?php echo $row["MaPhieuDoiH"];?>">Xóa</a>
 <?php 
 }
 else
@@ -170,8 +151,8 @@ else
 ;?>
 <?php
 ;?>                                          </td>
-                                            <!-- <td><a href="xacnhan_xuathang.php?maBBDH=<?php echo $row["maBBDH"];?>">Xuất hàng</a></td>
-                                            <td><a onclick=" return Del('<?php echo $row['maBBDH']; ?>')" href="tin_tuc_xoa.php?maBBDH=<?php echo $row["maBBDH"];?>">Từ chối</a></td> -->
+                                            <!-- <td><a href="xacnhan_xuathang.php?maBBDH=<?php echo $row["MaPhieuDoiH"];?>">Xuất hàng</a></td>
+                                            <td><a onclick=" return Del('<?php echo $row['MaPhieuDoiH']; ?>')" href="tin_tuc_xoa.php?maBBDH=<?php echo $row["MaPhieuDoiH"];?>">Từ chối</a></td> -->
                                         </tr>
                                         <?php
                                     }

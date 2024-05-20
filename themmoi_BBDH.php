@@ -73,15 +73,15 @@ if(isset($_GET['maSP']))
     $id=$_GET['maSP'];
 }
 //else echo"ko có";
-$query=mysqli_query($con,"select * from tbl_sanpham where maSP = $id ");
+$query=mysqli_query($con,"select * from hanghoa where mahang = $id ");
 if($query)
 {
     $product= mysqli_fetch_assoc($query);
 }
 $item=
 [
-    'id'=>$product['maSP'],
-    'name'=>$product['tenSP'],
+    'id'=>$product['MaHang'],
+    'name'=>$product['TenHang'],
     'sl'=>$sl
 ];
 if($action=='update')
@@ -102,7 +102,7 @@ if($action=='update')
 }
 ?>
                 <!-- contains here -->
-                                <table id="datatablesSimple" class="table table-hover table-bordered">
+                                <table id="datatablesSimple" class="table table-hover table-bordered" style="width: 900px">
                                     <thead >
                                         <tr >
                                             <th style="text-align: center;">STT</th>
@@ -119,21 +119,7 @@ if($action=='update')
                                         </tr>
                                     </thead>
                                     
-                                    <tfoot >
-                                        <tr >
-                                        <th style="text-align: center;">STT</th>
-                                            <th style="text-align: center;">Mã SP</th>  
-                                            <th style="text-align: center;">Tên SP</th>
-                                            <!-- <th style="text-align: center; width: 50px">Mô tả</th> -->
-                                            <th style="text-align: center;">Đơn giá</th> 
-                                            <th style="text-align: center;">DVT</th> 
-                                            <th style="text-align: center;">Số lượng</th>
-                                            <th style="text-align: center;">Loại sản phẩm</th>
-                                            <th style="text-align: center;">Mã NCC</th>
-                                            <!-- <th style="text-align: center;">Thương hiệu</th>   -->        
-                                            <th style="text-align: center;">Sửa</th>
-                                        </tr>
-                                    </tfoot>
+                                    
                                     <tbody>
 
                                     <?php
@@ -141,9 +127,9 @@ if($action=='update')
                                         include("config/connection.php");
  
                                         // 2. Viết câu lệnh truy vấn để lấy ra dữ liệu mong muốn (TIN TỨC đã lưu trong CSDL)
-                                       $sql = " SELECT * FROM tbl_sanpham as a join tbl_nhacungcap as b join tbl_loaisanpham as c
-                                                on a.maNCC=b.maNCC and a.maloai=c.maloai
-                                                  ORDER BY maSP  ASC    ";
+                                       $sql = " SELECT * FROM hanghoa as a join nhacungcap as b join loaihang as c
+                                                on a.maNCC=b.maNCC and a.maloaihang=c.maloaihang
+                                                  ORDER BY mahang  ASC    ";
                                         // 3. Thực thi câu lệnh lấy dữ liệu mong muốn
                                         $san_pham = $con -> query($sql);
                                           
@@ -157,15 +143,15 @@ if($action=='update')
 
                                         <tr>
                                             <td><?php echo $i;?></td>                                           
-                                            <td  style="text-align: center;"><?php echo $row['maSP']; ?></td>
-                                            <td><?php echo $row['tenSP']; ?></td>
-                                            <!-- <td style="width: 300px"><?php echo $row['mota']; ?></td> -->
-                                            <td style="text-align: center;"><?php echo $row['dongia']; ?></td>
+                                            <td  style="text-align: center;"><?php echo $row['MaHang']; ?></td>
+                                            <td><?php echo $row['TenHang']; ?></td>
+                                            <!-- <td style="width: 300px"><?php echo $row['MoTa']; ?></td> -->
+                                            <td style="text-align: center;"><?php echo $row['DonGiaBan']; ?></td>
                                             <td style="text-align: center;"><?php echo $row['DVT']; ?></td>
-                                            <td style="text-align: center;"><?php echo $row['soluong']; ?></td>
-                                             <td style="text-align: center;"><?php echo $row['tenloai'];?> </td>
-                                            <td style="text-align: center;"><?php echo $row['tenNCC'];?> </td>
-                                            <td><a class="btn btn-success" href="add_quatity_BBDH.php?maSP=<?php echo $row['maSP']; ?>">Chọn</a></td>
+                                            <td style="text-align: center;"><?php echo $row['SoLuong']; ?></td>
+                                             <td style="text-align: center;"><?php echo $row['TenLoaiHang'];?> </td>
+                                            <td style="text-align: justify;"><?php echo $row['TenNCC'];?> </td>
+                                            <td><a class="btn btn-success" href="add_quatity_BBDH.php?maSP=<?php echo $row['MaHang']; ?>">Chọn</a></td>
                                        
                                         </tr>
                                     <?php
@@ -223,17 +209,17 @@ if($action=='update')
 <p ><b>Nhân viên lập phiếu:</b>  
             <?php
             include("config/connection.php");
-            $sql_NV="SELECT * FROM tbl_nhanvien";
+            $sql_NV="SELECT * FROM nhanvien where chucvu = 'Nhân viên kinh doanh' ";
             $result_NV=$con->query($sql_NV);
             ?> </td>
             <td>
     <select name="manv" style="width:210px">
          <?php while ($row_NV=$result_NV->fetch_assoc()) {?>
-        <option value="<?php echo $row_NV['maNV'];?>" >
+        <option value="<?php echo $row_NV['IDNhanvien'];?>" >
 
-            <?php echo $row_NV['maNV'];  
+            <?php echo $row_NV['IDNhanvien'];  
             echo "- " ;
-            echo $row_NV['tenNV']; ?>
+            echo $row_NV['TenNV']; ?>
             
         </option>
     <?php } ?>
@@ -242,15 +228,15 @@ if($action=='update')
          <p ><b>Mã hóa đơn bán:</b>  
             <?php
             include("config/connection.php");
-            $sql_HDB="SELECT * FROM tbl_hoadonban";
+            $sql_HDB="SELECT * FROM hdb";
             $result_HDB=$con->query($sql_HDB);
             ?> </td>
             <td>
     <select name="mahdb" style="width:210px">
          <?php while ($row_HDB=$result_HDB->fetch_assoc()) {?>
-        <option value="<?php echo $row_HDB['maHDB'];?>" >
+        <option value="<?php echo $row_HDB['MaHDB'];?>" >
 
-            <?php echo $row_HDB['maHDB']; ?>
+            <?php echo $row_HDB['MaHDB']; ?>
             
         </option>
     <?php } ?>

@@ -1,7 +1,7 @@
 <?php
   include("config/connection.php");
   $maphieu=$_GET['maPXH'];
-  $sql_tuchoi = "  UPDATE `tbl_phieuxuathang` SET `tinhtrang`='Chưa xử lý' WHERE maPXH=$maphieu";
+  $sql_tuchoi = "  UPDATE `phieuyeucauxuathang` SET `tinhtrang`='Chưa xử lý' WHERE maPhieuYCXH=$maphieu";
    if($con -> query($sql_tuchoi)===True){
      echo "
                 <script type='text/javascript'>

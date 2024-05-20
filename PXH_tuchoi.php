@@ -2,7 +2,7 @@
   include("config/connection.php");
   $maBBDH=$_GET['maPXH'];
   // require('../mail1/send1.php');
-  $sql_tuchoi = "  UPDATE `tbl_phieuxuathang` SET `tinhtrang`='Từ chối' WHERE maPXH=$maBBDH";
+  $sql_tuchoi = "  UPDATE `phieuyeucauxuathang` SET `tinhtrang`='Từ chối' WHERE maPhieuYCXH=$maBBDH";
    if($con -> query($sql_tuchoi)===True){
      echo "
                 <script type='text/javascript'>

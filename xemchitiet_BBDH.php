@@ -24,7 +24,7 @@
 
 <main>
 <?php
-	include('../db/connect.php');
+	include('config/connection.php');
 ?>
 
 <div class="row">
@@ -44,12 +44,14 @@
 <?php
 	//tồn tại khi ấn xem đơn hàng
 	$maBBDH = $_GET['maBBDH']; //lấy lại mã hàng từ bên liệt kê đơn hàng muốn xem
-	$sql_chitiet1 = mysqli_query($con,"SELECT * FROM tbl_doihang as a,tbl_chitietdh as b, tbl_nhanvien as c, tbl_hoadonban as d, tbl_sanpham as e
-	WHERE a.maBBDH=b.maBBDH AND a.maHDB=d.MaHDB AND a.maNVDH=c.maNV AND b.maSP=e.maSP AND a.maBBDH='$maBBDH'"); //select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,tbl_sanpham 
+	$sql_chitiet1 = mysqli_query($con,"SELECT * FROM phieudoihang as a,chitietpdoih as b, nhanvien as c, hdb as d, hanghoa as e
+ WHERE a.MaPhieuDoiH=b.MaPhieuDoiH AND a.maHDB=d.maHDB AND a.MaNV=c.idnhanvien AND b.mahang=e.mahang AND a.MaPhieuDoiH='$maBBDH'");
+	 //select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,tbl_sanpham 
 	// WHERE tbl_donhang.idsanpham=tbl_sanpham.idsanpham AND tbl_donhang.maBBDH='$maBBDH'"); //select theo cùng mã hàng
 	
-	$sql_chitiet = mysqli_query($con,"SELECT * FROM tbl_doihang as a,tbl_chitietdh as b, tbl_nhanvien as c, tbl_hoadonban as d, tbl_sanpham as e
-	WHERE a.maBBDH=b.maBBDH AND a.maHDB=d.MaHDB AND a.maNVDH=c.maNV AND b.maSP=e.maSP AND a.maBBDH='$maBBDH'"); //select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,tbl_sanpham 
+	$sql_chitiet = mysqli_query($con,"SELECT * FROM phieudoihang as a,chitietpdoih as b, nhanvien as c, hdb as d, hanghoa as e
+ WHERE a.MaPhieuDoiH=b.MaPhieuDoiH AND a.maHDB=d.maHDB AND a.MaNV=c.idnhanvien AND b.mahang=e.mahang AND a.MaPhieuDoiH='$maBBDH'");
+	//select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,tbl_sanpham 
 
 
 	// $sql_chitiet1 = mysqli_query($con,"SELECT * FROM tbl_doihang as a,tbl_doihang as b, tbl_nhanvien as c, tbl_khachhang as d, tbl_sanpham as e
@@ -59,9 +61,9 @@
 	//$sql_total=mysqli_query($con, "SELECT sum(a.soluongxuat*b.dongia) as total FROM tbl_doihang as a join tbl_sanpham as b on a.maSP=b.maSP WHERE a.maBBDH=$maBBDH");		
 
 	//lấy ra mã MV, tenNV, kh cho phiếu
-	$sql_NV_KH=mysqli_query($con, "SELECT * FROM tbl_doihang as a join tbl_nhanvien as b join tbl_khachhang as c join tbl_hoadonban as d
-									on a.maNVDH=b.maNV and d.maKH=c.maKH and a.maHDB=d.maHDB
-									WHERE a.maBBDH=$maBBDH");
+	$sql_NV_KH=mysqli_query($con,  "SELECT b.TenNV, c.TenKH, a.MaNV as nvxuat, d.maNV as nvban, d.maKH 
+	FROM phieudoihang as a join nhanvien as b join khachhang as c join hdb as d 
+	WHERE a.MaNV=b.idnhanvien and d.maKH=c.maKH and b.idnhanvien=d.maNV and a.MaPhieuDoiH=$maBBDH");
 
 ?>
 				<?php 
@@ -74,19 +76,19 @@
 				
 					<table style="width:100%">
 						<tr>
-							<td><b> Nhân viên lập phiếu:</b> <?php echo $row_NV_KH['tenNV'] ?> </td>
+							<td><b> Nhân viên lập phiếu:</b> <?php echo $row_NV_KH['TenNV'] ?> </td>
 							<td ><p style="color:white">......................................................</p><td>	
-							<td style="padding-right:0"> <b>Ngày lập phiếu: </b> <?php echo $row_phieu1['ngaylap'] ?>  </td>
+							<td style="padding-right:0"> <b>Ngày lập phiếu: </b> <?php echo $row_phieu1['NgayLapPhieu'] ?>  </td>
 						</tr>
 						<tr>
-							<td><b>Khách hàng:</b>  <?php echo $row_NV_KH['tenKH'] ?> <td>	
+							<td><b>Khách hàng:</b>  <?php echo $row_NV_KH['TenKH'] ?> <td>	
 						</tr>
 						<tr>
-							<td> <b>Mã hóa đơn bán: </b> <?php echo $row_phieu1['maHDB'] ?> </td>
+							<td> <b>Mã hóa đơn bán: </b> <?php echo $row_phieu1['MaHDB'] ?> </td>
 						</tr>
-						<!-- <tr>
-							<td> <b>Lý do đổi hàng: </b> <?php echo $row_phieu1['lydo'] ?> </td>
-						</tr> -->
+						 <tr>
+							<td> <b>Lý do đổi hàng: </b> <?php echo $row_phieu1['LyDoDoi'] ?> </td>
+						</tr> 
 					</table >
 				
 <br>
@@ -105,14 +107,14 @@
 					
 <?php
 	$i = 0;
-	while($row_phieu = mysqli_fetch_array($sql_chitiet)){ //chuyển thành mảng, lần lượt i
+	while($row_phieu= mysqli_fetch_array($sql_chitiet)){ //chuyển thành mảng, lần lượt i
 		$i++;
 ?> 
 					<tr>
 						<td colspan="" style="text-align: center"><?php echo $i; ?></td>
-						<td style="text-align: center"><?php echo $row_phieu['maSP']; ?></td>
-						<td style="text-align: center"><?php echo $row_phieu['tenSP']; ?></td>
-						<td style="text-align: center"><?php echo $row_phieu['soluongdoi']; ?></td>
+						<td style="text-align: center"><?php echo $row_phieu['MaHang']; ?></td>
+						<td style="text-align: center"><?php echo $row_phieu['TenHang']; ?></td>
+						<td style="text-align: center"><?php echo $row_phieu['SoLuongDoi']; ?></td>
 						<!-- <td style="text-align: center"><?php //echo $row_phieu['dongia']; ?></td> -->
 						<td style="text-align: center"><?php echo $row_phieu['DVT']; ?></td>
 						<!-- tính tổng tiền của từng sp -->
@@ -134,7 +136,7 @@
 					 -->
 				</table>
 				
-				<a class="btn btn-success" style="margin-left:950px;color:white" href="inBBDH.php?maBBDH=<?php echo $row_phieu1['maBBDH'] ?>">
+				<a class="btn btn-success" style="margin-left:950px;color:white" href="inBBDH.php?maBBDH=<?php echo $row_phieu1['MaPhieuDoiH'] ?>">
 				<i class="fas fa-print"></i> In phiếu </a>
 		</div>
 			</form>

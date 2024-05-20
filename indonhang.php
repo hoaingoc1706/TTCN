@@ -1,5 +1,5 @@
 <?php
-include('../tfpdf/tfpdf.php');
+include('tfpdf/tfpdf.php');
 include("config/connection.php");
 
 
@@ -7,7 +7,7 @@ $pdf = new tFPDF();
 $pdf->AddPage("0");
 // $pdf->SetFont('Arial','B',16);
 // $pdf->Cell(40,10,'Hello World!');
-$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+$pdf->AddFont('DejaVu','','DejaVuSans.ttf',true);
 $pdf->SetFont('DejaVu','',16);
 
 
@@ -21,9 +21,9 @@ $maPXH = $_GET['maPXH']; //lấy lại mã hàng từ bên liệt kê đơn hàn
 // 									a.maHDB=e.maHDB and a.maPXH='$maPXH' GROUP BY 
 // 									a.maPXH ORDER BY ngaylap DESC"); 
 
-$sql_chitiet = mysqli_query($con,"SELECT * FROM tbl_phieuxuathang as a join tbl_chitietpxh as d join tbl_hoadonban as e join tbl_sanpham as b 
-on  a.maPXH=d.maPXH and b.maSP=d.maSP and a.maHDB=e.maHDB WHERE a.maPXH=$maPXH");
-$sql_total=mysqli_query($con, "SELECT sum(a.soluongxuat*b.dongia) as total FROM tbl_chitietpxh as a join tbl_sanpham as b on a.maSP=b.maSP WHERE a.maPXH=$maPXH");
+$sql_chitiet = mysqli_query($con,"SELECT * FROM phieuyeucauxuathang as a join chitietpycxh as d join hdb as e join hanghoa as b 
+on  a.maPhieuycXH=d.maPhieuycXH and b.mahang=d.mahang and a.maHDB=e.maHDB WHERE a.maPhieuycXH=$maPXH");
+$sql_total=mysqli_query($con, "SELECT sum(a.soluongxuat*b.dongiaban) as total FROM chitietpycxh as a join hanghoa as b on a.mahang=b.mahang WHERE a.maPhieuycXH=$maPXH");
 $pdf->Write(15,'PHIẾU XUẤT HÀNG'); 
 
     $pdf->Ln(25);
@@ -52,14 +52,14 @@ $pdf->Write(15,'PHIẾU XUẤT HÀNG');
 	while($row_phieu = mysqli_fetch_array($sql_chitiet)){
 		$i++;
 	$pdf->Cell($width_cell[0],10,$i,1,0,'C',$fill);
-	$pdf->Cell($width_cell[1],10,$row_phieu['maSP'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[2],10,$row_phieu['tenSP'],1,0,'C',$fill);
+	$pdf->Cell($width_cell[1],10,$row_phieu['MaHang'],1,0,'C',$fill);
+	$pdf->Cell($width_cell[2],10,$row_phieu['TenHang'],1,0,'C',$fill);
     
-	$pdf->Cell($width_cell[3],10,$row_phieu['soluongxuat'],1,0,'C',$fill);
-    $pdf->Cell($width_cell[4],10,number_format($row_phieu['dongia']),1,0,'C',$fill);
+	$pdf->Cell($width_cell[3],10,$row_phieu['SoLuongXuat'],1,0,'C',$fill);
+    $pdf->Cell($width_cell[4],10,number_format($row_phieu['DonGiaBan']),1,0,'C',$fill);
     $pdf->Cell($width_cell[5],10,$row_phieu['DVT'],1,0,'C',$fill);
 	
-	$pdf->Cell($width_cell[6],10,number_format($row_phieu['soluongxuat']*$row_phieu['dongia']),1,1,'R',$fill);
+	$pdf->Cell($width_cell[6],10,number_format($row_phieu['SoLuongXuat']*$row_phieu['DonGiaBan']),1,1,'R',$fill);
     $fill=false;
 	}
     $width_cell=array(230,40);

@@ -58,15 +58,15 @@ if(isset($_GET['maSP']))
     $id=$_GET['maSP'];
 }
 //else echo"ko có";
-$query=mysqli_query($con,"select * from tbl_sanpham where maSP = $id ");
+$query=mysqli_query($con,"select * from hanghoa where mahang = '".$id."' ");
 if($query)
 {
     $product= mysqli_fetch_assoc($query);
 }
 $item=
 [
-    'id'=>$product['maSP'],
-    'name'=>$product['tenSP'],
+    'id'=>$product['MaHang'],
+    'name'=>$product['TenHang'],
     'sl'=>$sl
 ];
 if($action=='update')

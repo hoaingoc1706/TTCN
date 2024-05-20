@@ -5,12 +5,12 @@ include("config/connection.php");
 $maPXH=$_GET["maPXH"];
 
 
-$sql= "SELECT email from tbl_phieuxuathang as a join tbl_hoadonban as b on a.maHDB=b.maHDB join tbl_khachhang as c on b.maKH=c.maKH where a.maPXH=$maPXH";
+$sql= "SELECT email from phieuyeucauxuathang as a join hdb as b on a.maHDB=b.maHDB join khachhang as c on b.maKH=c.maKH where a.maPhieuYCXH='".$maPXH."'";
 $sql_dh=$con-> query($sql);
 $a=0;
 while($row_dh=$sql_dh ->fetch_assoc()){
     $a++;
-    $email= $row_dh['email'];}
+    $email= $row_dh['Email'];}
 // }
 //  header('location:xemchitietdonhang_xacnhan.php?maPXH=<');
 echo "
@@ -22,7 +22,7 @@ window.alert('Mail đã được gửi tới khách hàng!');
 ?>
 <?php    $_SESSION['mail']=$mail;
 if($a>=1){
-    require('../mail/send.php');
+    require('mail/send.php');
     $tieude="THÔNG BÁO VẬN CHUYỂN ĐƠN HÀNG";
     $noidung ="<h3>ĐƠN HÀNG CỦA BẠN ĐÃ ĐƯỢC VẬN CHUYỂN </h3>
     <i> Vui lòng để ý điện thoại, nhân viên của chúng tôi sẽ liên lạc với bạn để giao hàng </i>

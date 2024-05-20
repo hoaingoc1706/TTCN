@@ -24,7 +24,7 @@
 
 <main>
 <?php
-    include('../db/connect.php');
+    include('config/connection.php');
 ?>
 
 <div class="row">
@@ -37,30 +37,30 @@
                             <div class="card-header" >
                            
                             <i class="fas fa-home"></i><a href="index.php">Trang chủ</a> ||  <i class="fas fa-table me-1"></i> Biên bản đôi hàng
-                            <a href="BBDH.php" class="btn btn-primary" style="margin-left:500px"><b> Phiếu đổi hàng </b></a>
+                            <a href="BBDH.php" class="btn btn-primary" style="margin-left:500px"><b> Danh sách phiếu đổi hàng </b></a>
                             <a href="doihang.php" class="btn btn-primary" style="margin-left:20px"><b> Phiếu đổi hàng </b></a>
                             </div>
         <div class="col-md-12">
 <?php
 //tồn tại khi ấn xem đơn hàng
 $maBBDH = $_GET['maBBDH']; //lấy lại mã hàng từ bên liệt kê đơn hàng muốn xem
-$sql_chitiet = mysqli_query($con,"SELECT * FROM tbl_doihang as a,tbl_chitietdh as b, tbl_nhanvien as c, tbl_hoadonban as d, tbl_sanpham as e
- WHERE a.maBBDH=b.maBBDH AND a.maHDB=d.maHDB AND a.maNVDH=c.maNV AND b.maSP=e.maSP AND a.maBBDH='$maBBDH'"); //select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,tbl_sanpham 
+$sql_chitiet = mysqli_query($con,"SELECT * FROM phieudoihang as a,chitietpdoih as b, nhanvien as c, hdb as d, hanghoa as e
+ WHERE a.MaPhieuDoiH=b.MaPhieuDoiH AND a.maHDB=d.maHDB AND a.MaNV=c.idnhanvien AND b.mahang=e.mahang AND a.MaPhieuDoiH='$maBBDH'"); //select theo cùng mã hàng// SELECT tbl_donhang.maBBDH, tensanpham, tbl_donhang.soluong, giasale, ngaythang FROM tbl_donhang,hanghoa 
 
-$sql_chitiet = mysqli_query($con,"SELECT * from tbl_doihang as a join tbl_chitietdh as b join tbl_sanpham as c on a.maBBDH=b.maBBDH and b.maSP=c.maSP WHERE a.maBBDH=$maBBDH");
+$sql_chitiet = mysqli_query($con,"SELECT * from phieudoihang as a join chitietpdoih as b join hanghoa as c on a.MaPhieuDoiH=b.MaPhieuDoiH and b.mahang=c.MaHang WHERE a.MaPhieuDoiH=$maBBDH");
 
-$sql_chitiet1 = mysqli_query($con,"SELECT * FROM tbl_doihang as a, tbl_chitietdh as b, tbl_hoadonban as c, tbl_chitiethdb as d 
- WHERE a.maBBDH=b.maBBDH and a.maHDB=c.maHDB and a.maHDB=d.maHDB AND a.maBBDH='$maBBDH'");
+$sql_chitiet1 = mysqli_query($con,"SELECT * FROM phieudoihang as a, chitietpdoih as b, hdb as c, chitiethdb as d 
+ WHERE a.MaPhieuDoiH=b.MaPhieuDoiH and a.maHDB=c.maHDB and a.maHDB=d.maHDB AND a.MaPhieuDoiH='$maBBDH'");
 
 // //sql tính tổng
-$sql_total=mysqli_query($con, "SELECT sum(a.soluongdoi*b.dongia) as total FROM tbl_chitietdh as a join tbl_sanpham as b on a.maSP=b.maSP WHERE a.maBBDH=$maBBDH");      
+$sql_total=mysqli_query($con, "SELECT sum(a.soluongdoi*b.dongiaban) as total FROM chitietpdoih as a join hanghoa as b on a.MaHang = b.mahang WHERE a.MaPhieuDoiH=$maBBDH");      
 
 // //lấy ra mã MV, tenNV, kh cho phiếu
-$sql_NV_KH=mysqli_query($con, "SELECT a.maNVDH as nvxuat, d.maNV as nvban, d.maKH  
-                                FROM tbl_doihang as a join tbl_nhanvien as b join tbl_khachhang as c join tbl_hoadonban as d 
-                                WHERE a.maNVDH=b.maNV and d.maKH=c.maKH and b.maNV=d.maNV
-                                and a.maBBDH=$maBBDH");
-// $sql11= "SELECT * from tbl_doihang as a join tbl_hoadonban as b on a.maHDB=b.maHDB join tbl_khachhang as c on b.maKH=c.maKH join tbl_nhanvien as d on a.maNVDH=d.maNV where a.maBBDH=$maBBDH";
+$sql_NV_KH=mysqli_query($con, "SELECT a.MaNV as nvxuat, d.maNV as nvban, d.maKH  
+                                FROM phieudoihang as a join nhanvien as b join khachhang as c join hdb as d 
+                                WHERE a.MaNV=b.idnhanvien and d.maKH=c.maKH and b.idnhanvien=d.maNV
+                                and a.MaPhieuDoiH=$maBBDH");
+// $sql11= "SELECT * from phieudoihang as a join hdb as b on a.maHDB=b.maHDB join tbl_khachhang as c on b.maKH=c.maKH join nhanvien as d on a.MaNV=d.maNV where a.MaPhieuDoiH=$maBBDH";
 
 
 ?>
@@ -84,8 +84,8 @@ $sql_NV_KH=mysqli_query($con, "SELECT a.maNVDH as nvxuat, d.maNV as nvban, d.maK
                             
                         </tr>
                     </table > -->
-                    <!-- <b> Nhân viên lập phiếu:</b> <?php echo $row_sql11['tenNV'] ?> 
-                    <b>Ngày lập phiếu: </b> <?php echo $row_phieu1['ngaylap'] ?>   -->
+                    <!-- <b> Nhân viên lập phiếu:</b> <?php echo $row_sql11['TenNV'] ?> 
+                    <b>Ngày lập phiếu: </b> <?php echo $row_phieu1['NgayLapPhieu'] ?>   -->
 <br>
             <form action="" method="POST">
                 <table class="table table-bordered " >
@@ -104,12 +104,12 @@ $sql_NV_KH=mysqli_query($con, "SELECT a.maNVDH as nvxuat, d.maNV as nvban, d.maK
 ?> 
                     <tr>
                         <td colspan="" style="text-align: center"><?php echo $i; ?></td>
-                        <td style="text-align: center"><?php echo $row_phieu['maSP']; ?></td>
-                        <td style="text-align: center"><?php echo $row_phieu['tenSP']; ?></td>
-                        <td style="text-align: center"><?php echo $row_phieu['soluongdoi']; ?></td>
-                        <!-- <td style="text-align: center"><?php echo $row_phieu['dongia']; ?></td> -->
+                        <td style="text-align: center"><?php echo $row_phieu['MaHang']; ?></td>
+                        <td style="text-align: center"><?php echo $row_phieu['TenHang']; ?></td>
+                        <td style="text-align: center"><?php echo $row_phieu['SoLuongDoi']; ?></td>
+                        <!-- <td style="text-align: center"><?php echo $row_phieu['DonGiaBan']; ?></td> -->
                         <td style="text-align: center"><?php echo $row_phieu['DVT']; ?></td>
-                        <!-- <td style="text-align: right"><?php echo number_format($row_phieu['soluongxuat']*$row_phieu['dongia']).'VND'; ?></td> -->
+                        <!-- <td style="text-align: right"><?php echo number_format($row_phieu['SoLuongDoi']*$row_phieu['DonGiaBan']).'VND'; ?></td> -->
                     </tr>
 <?php
 } 
@@ -123,10 +123,10 @@ $sql_NV_KH=mysqli_query($con, "SELECT a.maNVDH as nvxuat, d.maNV as nvban, d.maK
                     
                 </table>
                 <br>
-                <a class="btn btn-danger"  style="margin-left:100px;color:white" onclick="return tuchoi ('<?php echo $row_phieu1['maBBDH'] ?>')" href="BBDH_tuchoi.php?maBBDH=<?php echo $row_phieu1['maBBDH']; ?>"><b>Từ chối </b></a>
-                <a class="btn btn-warning" style="margin-left:180px;color:white" onclick="return chuaxuly ('<?php echo $row_phieu1['maBBDH'] ?>')" href="BBDH_chuaxuly.php?maBBDH=<?php echo $row_phieu1['maBBDH']; ?>"> <b>Chưa xử lý </b></a>
-                <a class="btn btn-success" style="margin-left:180px;color:white" onclick="return xuly ('<?php echo $row_phieu1['maBBDH'] ?>')" href="BBDH_xuly.php?maBBDH=<?php echo $row_phieu1['maBBDH']; ?>"> <b>Lập phiếu đổi kho  </b> </a>
-				<a class="btn btn-success" style="margin-left:120px;color:white" onclick="return tbao ('<?php echo $row_phieu1['maBBDH'] ?>')" href="BBDH_tbaokhach.php?maBBDH=<?php echo $row_phieu1['maBBDH']; ?>"> <b>Thông báo KH </b></a>
+                <a class="btn btn-danger"  style="margin-left:100px;color:white" onclick="return tuchoi ('<?php echo $row_phieu1['MaPhieuDoiH'] ?>')" href="BBDH_tuchoi.php?maBBDH=<?php echo $row_phieu1['MaPhieuDoiH']; ?>"><b>Từ chối </b></a>
+                <a class="btn btn-warning" style="margin-left:180px;color:white" onclick="return chuaxuly ('<?php echo $row_phieu1['MaPhieuDoiH'] ?>')" href="BBDH_chuaxuly.php?maBBDH=<?php echo $row_phieu1['MaPhieuDoiH']; ?>"> <b>Chưa xử lý </b></a>
+                <a class="btn btn-success" style="margin-left:180px;color:white" onclick="return xuly ('<?php echo $row_phieu1['MaPhieuDoiH'] ?>')" href="BBDH_xuly.php?maBBDH=<?php echo $row_phieu1['MaPhieuDoiH']; ?>"> <b>Lập phiếu đổi hàng  </b> </a>
+				<a class="btn btn-success" style="margin-left:120px;color:white" onclick="return tbao ('<?php echo $row_phieu1['MaPhieuDoiH'] ?>')" href="BBDH_tbaokhach.php?maBBDH=<?php echo $row_phieu1['MaPhieuDoiH']; ?>"> <b>Thông báo KH </b></a>
                 
             
 </p><br>

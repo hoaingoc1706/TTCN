@@ -19,7 +19,7 @@ if(!isset($_SESSION['dangnhap_home'])) {
     $maNCC= $_GET["maNCC"];
 
     $sql = "
-    DELETE FROM tbl_nhacungcap WHERE maNCC=$maNCC
+    DELETE FROM nhacungcap WHERE maNCC= '".$maNCC."'
     
     ";
 
